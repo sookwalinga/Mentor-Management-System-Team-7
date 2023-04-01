@@ -1,5 +1,4 @@
-# Mentor-Management-System-Team-7
-
+# Mentor-Management-System
 Mentors Management system is a people management app that enables proper.
 coordination of mentors needed to execute projects, ranging from recruitment to off-boarding. Ensue to go through the app doc below to read more and follow all the instructions.
 
@@ -7,6 +6,7 @@ coordination of mentors needed to execute projects, ranging from recruitment to 
 
 
 ## Techonologies 
+
 * Frontend - 
 * Backend - 
 * Database -
@@ -32,22 +32,72 @@ To get it up and running on your local machine, follow the steps below:
 - Install all the dependencies with the command `npm install`
 - Start the app with the command `npm run dev`
 - Navigate to the app on your browser with the url `http://localhost:****` where **** is the port number displayed on your terminal.
+
 ##### Backend
 
-- Beckend - 
-## Design
+- Backend -
 
-- The design can be find [here](https://www.figma.com/file/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?node-id=30-29&t=EYLkM82VYd8npM7x-0)
-- Find the Prototype [here](https://www.figma.com/proto/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?page-id=6782%3A4428&node-id=6784-6712&viewport=565%2C382%2C0.02&scaling=min-zoom&starting-point-node-id=6784%3A6712)
+##### Design
+
+- The design can be find [here](https://www.figma.com/file/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?t=oxc4As0deSW7RNa8-0)
+- Find the Prototype [here](https://www.figma.com/proto/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?page-id=6782%3A4428&node-id=6784%3A6712&viewport=565%2C382%2C0.02&scaling=min-zoom&starting-point-node-id=6784%3A6712)
 - Work on your Team assigned task eg. Team 1, Team 2 etc.
-- NOTE: Stickly adhere to the style guide on the design, buttons, texts etc. 
+- NOTE: Stickly adhere to the style guide on the design, buttons, texts etc.
 
-# Creating issue 
+##### Creating issue
 
 - Raise any identified issue with your mentor.
 
-#### Other commands available
+##### Local Database Setup
 
-- `npm run build` - Builds the app for production to the `dist` folder.
-- `npm run lint` - Lints the codebase.
-- `npm run lint:fix` - Lints the codebase and fixes auto-fixable error.
+1. Install and create a MySQL database (Can be change)
+2. Create a .env file in the root directory
+3. Set the environment variables with your local database credentials (see .env.example for reference)
+
+
+##### Installation
+
+```bash
+$ yarn install
+```
+
+##### Running the app
+
+```bash
+# development
+$ yarn start
+
+# watch mode
+$ yarn dev
+
+# production mode
+$ yarn start:prod
+```
+
+##### Test
+
+```bash
+# unit tests
+$ yarn run test
+
+# e2e tests
+$ yarn run test:e2e
+
+# test coverage
+$ yarn run test:cov
+```
+
+##### Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
