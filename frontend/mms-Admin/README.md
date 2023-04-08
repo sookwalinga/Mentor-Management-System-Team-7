@@ -39,8 +39,8 @@ eg: git commit -m "feat: add new feature"
 
 ## Tech
 
-- [Next.js](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [DaisyUI](https://daisyui.com/)
-- [SWR](https://swr.vercel.app/)
+  -  [Next.js](https://nextjs.org/)
+  -  [TypeScript](https://www.typescriptlang.org/)
+  -  [Tailwind CSS](https://tailwindcss.com/)
+  -  [DaisyUI](https://daisyui.com/)
+  -  [SWR](https://swr.vercel.app/)
