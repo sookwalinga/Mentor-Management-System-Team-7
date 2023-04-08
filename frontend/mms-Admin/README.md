@@ -10,20 +10,18 @@ coordination of mentors needed to execute projects, ranging from recruitment to 
 Install dependencies and run the development server:
 
 ```bash
-
 npm install
 
 npm run dev
-
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open  with your browser to see the result.
 
 ## Daily Development
 
 > Please remember to **always** pull the latest changes.
 
-### _Commiting_
+### *Commiting*
 
 Commits must be formated follows:
 
@@ -39,8 +37,8 @@ eg: git commit -m "feat: add new feature"
 
 ## Tech
 
-*   [Next.js](https://nextjs.org/)
-*   [TypeScript](https://www.typescriptlang.org/)
-*   [Tailwind CSS](https://tailwindcss.com/)
-*   [DaisyUI](https://daisyui.com/)
-*   [SWR](https://swr.vercel.app/)
+-   [Next.js](https://nextjs.org/)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind CSS](https://tailwindcss.com/)
+-   [DaisyUI](https://daisyui.com/)
+-   [SWR](https://swr.vercel.app/)
