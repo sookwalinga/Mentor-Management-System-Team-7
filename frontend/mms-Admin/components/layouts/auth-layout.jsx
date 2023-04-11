@@ -8,7 +8,7 @@ const AuthLayout = ({ children, title }) => (
       <title>{title}</title>
     </Head>
 
-    <div className="w-full bg-mmsPry3 flex items-center justify-center h-screen">
+    <div className="w-full bg-mmsPry3 items-center justify-center h-screen hidden md:flex">
       <div className="text-center">
         <figure>
           <Image
