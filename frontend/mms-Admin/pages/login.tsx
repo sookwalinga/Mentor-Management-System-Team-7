@@ -81,7 +81,7 @@ const Login = () => {
         </svg>
       </div>
 
-      <button className="btn bg-btnPrimary hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
+      <button className="btn bg-mmsPry3 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
         Login
       </button>
 
