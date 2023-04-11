@@ -1,23 +1,13 @@
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import AuthLayout from "../components/layouts/auth-layout";
-const ForgotPassword = () => {
+const SetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <AuthLayout title="Login">
-      <div className="mb-4">
-        <h2 className="text-black font-bold">Forgot Password?</h2>
-        <h3 className="text-grey ">Login to continue</h3>
-      </div>
-      <input
-        type="email"
-        placeholder="Email"
-        className="input input-bordered input-success w-full mb-2 bg-transparent"
-      />
-      <div className="w-full flex justify-center items-center relative  mb-4  border border-gray-400 rounded-lg p-4">
+    <AuthLayout title="Set Password">
+      <h2 className="text-black font-bold mb-4">Set new password</h2>
+      <div className="w-full flex justify-center items-center relative  border border-gray-400 rounded-lg p-4">
         <input
-          type={showPassword ? "password" : "text"}
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           className="w-full bg-transparent"
         />
@@ -30,30 +20,6 @@ const ForgotPassword = () => {
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? (
-            <>
-              <path
-                d="M2 2L22 22"
-                stroke="black"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335"
-                stroke="black"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M14 14.2362C13.4692 14.7112 12.7684 15.0001 12 15.0001C10.3431 15.0001 9 13.657 9 12.0001C9 11.1764 9.33193 10.4303 9.86932 9.88818"
-                stroke="black"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </>
-          ) : (
             <>
               <path
                 d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12"
@@ -77,29 +43,41 @@ const ForgotPassword = () => {
                 stroke-linejoin="round"
               />
             </>
+          ) : (
+            <>
+              <path
+                d="M2 2L22 22"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14 14.2362C13.4692 14.7112 12.7684 15.0001 12 15.0001C10.3431 15.0001 9 13.657 9 12.0001C9 11.1764 9.33193 10.4303 9.86932 9.88818"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </>
           )}
         </svg>
       </div>
+      <p className="mb-4 mt-2">
+        *Your new password must be different from previously used password.
+      </p>
       <button className="btn bg-mmsPry3 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
-        Login
+        Reset Password
       </button>
-      <div className="flex justify-end">
-        <button className="text-mmsBlack1 hover:text-blue-700 my-2 normal-case">
-          Forgot Password?
-        </button>
-      </div>
-      <button className="btn btn-outline btn-accent hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
-        <Image src="/images/image 1.png" alt="Google" width={30} height={20} />
-        <span className="px-4 text-mmsBlack1"> Signin with Google</span>
-      </button>
-      <div className="flex justify-center mt-4  text-mmsBlack1">
-        New User?
-        <Link href="/">
-          <span className="px-1 font-bold underline"> Signup</span>
-        </Link>
-      </div>
     </AuthLayout>
   );
 };
 
-export default ForgotPassword;
+export default SetPassword;
