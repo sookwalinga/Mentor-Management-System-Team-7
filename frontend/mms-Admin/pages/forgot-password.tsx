@@ -84,12 +84,11 @@ const Login = () => {
       <button className="btn bg-btnPrimary hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
         Login
       </button>
-
-      <Link href="/forgot-password">
-        <div className="flex justify-end text-mmsBlack1 hover:text-blue-700 my-2 cursor-pointer">
+      <div className="flex justify-end">
+        <button className="text-mmsBlack1 hover:text-blue-700 my-2 normal-case">
           Forgot Password?
-        </div>
-      </Link>
+        </button>
+      </div>
       <button className="btn btn-outline btn-accent hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
         <Image src="/images/image 1.png" alt="Google" width={30} height={20} />
         {"  "}
