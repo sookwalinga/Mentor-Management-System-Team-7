@@ -1,3 +1,5 @@
+// Package mongodb.user defines db queries for the user
+// collection.
 package mongodb
 
 import (
@@ -22,7 +24,7 @@ func (mc *MongoClient) CreateUser(ctx context.Context, user *models.User) (*mode
 	return mc.GetUser(ctx, userID)
 }
 
-// GetUserByID retrieves a user document from the collection by ID.
+// GetUser retrieves a user document from the collection by ID.
 func (mc *MongoClient) GetUser(ctx context.Context, id string) (*models.User, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -41,8 +43,8 @@ func (mc *MongoClient) GetUser(ctx context.Context, id string) (*models.User, er
 	return &user, nil
 }
 
-// UpdateUserByID updates a user document in the collection by ID.
-func (mc *MongoClient) UpdateUserByID(
+// UpdateUser updates a user document in the collection by ID.
+func (mc *MongoClient) UpdateUser(
 	ctx context.Context,
 	userID string,
 	updateData map[string]interface{},
@@ -74,8 +76,8 @@ func (mc *MongoClient) UpdateUserByID(
 	return updatedUser, nil
 }
 
-// DeleteUserByID removes a user document from the collection by ID.
-func (mc *MongoClient) DeleteUserByID(ctx context.Context, id string) (*mongo.DeleteResult, error) {
+// DeleteUser removes a user document from the collection by ID.
+func (mc *MongoClient) DeleteUser(ctx context.Context, id string) (*mongo.DeleteResult, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err

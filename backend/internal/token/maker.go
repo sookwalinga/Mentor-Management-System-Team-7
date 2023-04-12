@@ -1,3 +1,5 @@
+// Package token.maker defines the necessary interface to
+// need to satified by token maker.
 package token
 
 import "time"

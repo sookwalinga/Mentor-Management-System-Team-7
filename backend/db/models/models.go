@@ -1,3 +1,6 @@
+// Package models contains the data models used in the application.
+// It defines the data structure for a user's profile and settings, including contact details, social media URLs,
+// notification settings, support information, and email verification details.
 package models
 
 import (
@@ -14,7 +17,7 @@ type User struct {
 	About             string             `bson:"about,omitempty"`
 	Contact           Contact            `bson:"contact,omitempty"`
 	CreatedAt         time.Time          `bson:"created_at,omitempty"`
-	ProfileImageUrl   string             `bson:"profile_image_url,omitempty"`
+	ProfileImageURL   string             `bson:"profile_image_url,omitempty"`
 	PasswordChangedAt time.Time          `bson:"password_changed_at,omitempty"`
 	HashedPassword    string             `bson:"hashed_password,omitempty"`
 	Socials           Socials            `bson:"socials,omitempty"`
@@ -36,10 +39,10 @@ type SocialMediaURL struct {
 
 // Socials represents user's social details.
 type Socials struct {
-	GitHubUrl    SocialMediaURL `bson:"github_url,omitempty"`
-	LinkedInUrl  SocialMediaURL `bson:"linkedin_url,omitempty"`
-	TwitterUrl   SocialMediaURL `bson:"twitter_url,omitempty"`
-	InstagramUrl SocialMediaURL `bson:"instagram_url,omitempty"`
+	GitHubURL    SocialMediaURL `bson:"github_url,omitempty"`
+	LinkedInURL  SocialMediaURL `bson:"linkedin_url,omitempty"`
+	TwitterURL   SocialMediaURL `bson:"twitter_url,omitempty"`
+	InstagramURL SocialMediaURL `bson:"instagram_url,omitempty"`
 }
 
 // A NotificationType represents notification settings.

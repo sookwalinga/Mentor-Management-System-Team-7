@@ -1,3 +1,4 @@
+// Package utils.random defines general utilities for codebase.
 package utils
 
 import (
@@ -12,10 +13,14 @@ import (
 const alphabets = "abcdefghijklmnopqrstuvwxyz"
 
 const (
+	// Admin role.
 	ADMIN  = "Admin"
+
+	// Mentor role.
 	MENTOR = "Mentor"
+
+	// Mentee role.
 	MENTEE = "Mentee"
-	USER   = "User"
 )
 
 func init() {
@@ -48,7 +53,7 @@ func RandomUserID() string {
 
 // UserRole returns a role if found.
 func UserRole(role string) string {
-	roles := []string{ADMIN, MENTOR, MENTEE, USER}
+	roles := []string{ADMIN, MENTOR, MENTEE}
 	for _, r := range roles {
 		if role == r {
 			return role

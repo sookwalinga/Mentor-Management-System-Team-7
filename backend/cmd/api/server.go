@@ -1,3 +1,6 @@
+// Package api provides an HTTP server implementation for the Mentor-Management-System-Team-7
+// backend application. It defines a Server struct that serves HTTP requests and sets up the routing.
+// The package utilizes the following internal packages: db, token, utils, and worker.
 package api
 
 import (

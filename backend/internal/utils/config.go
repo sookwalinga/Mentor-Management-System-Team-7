@@ -1,3 +1,5 @@
+// Package utils.config defines utility for parsing environment
+// variables.
 package utils
 
 import (

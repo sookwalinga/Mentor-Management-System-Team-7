@@ -1,3 +1,15 @@
+// Package main is the entry point for the backend of Mentor Management System application.
+//
+// This package is responsible for initializing the application and starting the server.
+// It loads the configuration file, establishes the database and Redis connections,
+// creates the Gin server and the task processor for asynchronous tasks.
+//
+// The main function calls the connectDB function to establish a connection to MongoDB,
+// then it creates a new MongoDB store using the connection, and creates a new Redis task distributor.
+// It then launches the task processor in a goroutine and starts the Gin server.
+//
+// The package also provides two helper functions: connectDB and closeDB, which are responsible for
+// establishing and closing the database connection respectively.
 package main
 
 import (

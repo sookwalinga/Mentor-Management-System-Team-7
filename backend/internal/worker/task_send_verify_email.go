@@ -1,3 +1,5 @@
+// Package worker.task_send_verify_email provides functions to distribute
+// and process verify email tasks.
 package worker
 
 import (
@@ -13,19 +15,23 @@ import (
 )
 
 const (
+	// TaskSendVerifyEmail represents the name of the task that sends the email verification email.
 	TaskSendVerifyEmail = "task:send_verify_email"
 )
 
+// PayloadSendVerifyEmail provides the userID.
 type PayloadSendVerifyEmail struct {
 	UserID string `json:"user_id"`
 }
 
+// DistributeTaskSendVerifyEmail enqueues the given task to be processed by a worker. It returns an error if the task could
+// not be enqueued.
 func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
 	ctx context.Context,
-	paylocd *PayloadSendVerifyEmail,
+	payload *PayloadSendVerifyEmail,
 	opts ...asynq.Option,
 ) error {
-	jsonPayload, err := json.Marshal(paylocd)
+	jsonPayload, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("failed to marshal task payload: %w", err)
 	}
@@ -45,6 +51,7 @@ func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
 	return nil
 }
 
+// ProcessTaskSendVerifyEmail processes a 'TaskSendVerifyEmail' task.
 func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(
 	ctx context.Context,
 	task *asynq.Task,

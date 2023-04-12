@@ -1,3 +1,5 @@
+// Package mongodb.tx_verify_new_user defines the database transaction
+// to create a user and queue verify email transaction.
 package mongodb
 
 import (
@@ -7,6 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// CreateUserTx encapsulates the db transaction to create a user and
+// queue a send verification email to new user.
 func (mc *MongoClient) CreateUserTx(
 	ctx context.Context,
 	user *models.User,

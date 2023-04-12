@@ -1,3 +1,4 @@
+// Package token.payload defines the token's payload.
 package token
 
 import (
@@ -7,9 +8,11 @@ import (
 	"github.com/google/uuid"
 )
 
-// Differen types of error returned by the VerifyToken
 var (
+	// ErrInvalidToken is returned for invalid token
 	ErrInvalidToken = errors.New("token is invalid")
+
+	// ErrExpiredToken is returned for expired token
 	ErrExpiredToken = errors.New("token has expired")
 )
 

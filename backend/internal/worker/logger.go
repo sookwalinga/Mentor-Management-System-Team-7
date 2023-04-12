@@ -1,3 +1,4 @@
+// Package worker.logger provides custom logging formats ontop the zerolog logger.
 package worker
 
 import (
@@ -8,16 +9,20 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// Logger  zerolog to provide custom log function.
 type Logger struct{}
 
+// NewLogger returns a Logger instance.
 func NewLogger() *Logger {
 	return &Logger{}
 }
 
+// Print formats a log for printing.
 func (logger *Logger) Print(level zerolog.Level, args ...interface{}) {
 	log.WithLevel(level).Msg(fmt.Sprint(args...))
 }
 
+// Printf formats a log for printing with string directive.
 func (logger *Logger) Printf(ctx context.Context, format string, v ...interface{}) {
 	log.WithLevel(zerolog.DebugLevel).Msgf(format, v...)
 }

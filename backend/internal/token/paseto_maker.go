@@ -1,3 +1,5 @@
+// Package token.paseto_maker defines the functionalities necessary to
+// implement paseto token.
 package token
 
 import (
@@ -15,6 +17,7 @@ type PasetoMaker struct {
 	symmetricKey []byte
 }
 
+// NewPasetoMaker instantiates a PasetoMaker object.
 func NewPasetoMaker(symmetricKey string) (Maker, error) {
 	if len(symmetricKey) != chacha20poly1305.KeySize {
 		return nil, fmt.Errorf("invalid key size: must be exactly %d characters", chacha20poly1305.KeySize)

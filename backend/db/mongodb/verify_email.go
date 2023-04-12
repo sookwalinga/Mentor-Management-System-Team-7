@@ -1,3 +1,5 @@
+// Package mongodb.verify_email defines db queries for the
+// verify_email collection.
 package mongodb
 
 import (
@@ -16,11 +18,11 @@ func (mc *MongoClient) CreateVerifyEmail(ctx context.Context, verifyEmail *model
 		return nil, err
 	}
 	verifyEmailID := result.InsertedID.(string)
-	return mc.GetVerifyEmailByID(ctx, verifyEmailID)
+	return mc.GetVerifyEmail(ctx, verifyEmailID)
 }
 
-// GetVerifyEmailByID return a record by ID from the verify_emails collection.
-func (mc *MongoClient) GetVerifyEmailByID(ctx context.Context, id string) (*models.VerifyEmail, error) {
+// GetVerifyEmail return a record by ID from the verify_emails collection.
+func (mc *MongoClient) GetVerifyEmail(ctx context.Context, id string) (*models.VerifyEmail, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err

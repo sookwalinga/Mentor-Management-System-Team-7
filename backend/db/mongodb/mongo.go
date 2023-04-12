@@ -1,3 +1,5 @@
+// Package mongodb.mongo contains the wrapper for the Mongo Client
+// implementing the Store interface.
 package mongodb
 
 import (
@@ -9,8 +11,13 @@ import (
 )
 
 const (
+	// DBName defines database name.
 	DBName                 = ""
+
+	// UsersCollection defines users collection name.
 	UsersCollection        = "users"
+
+	// VerifyEmailsCollection defines verify_emails collection name.
 	VerifyEmailsCollection = "verify_emails"
 )
 
@@ -19,7 +26,7 @@ type MongoClient struct {
 	client *mongo.Client
 }
 
-// New instantiates a new Mongodb-based client.
+// NewMongoClient instantiates a new Mongodb-based client.
 func NewMongoClient(client *mongo.Client) db.Store {
 	return &MongoClient{client}
 }

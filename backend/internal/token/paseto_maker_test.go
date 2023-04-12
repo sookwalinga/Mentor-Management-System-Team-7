@@ -1,3 +1,4 @@
+// Package token.paseto_maker_test defines all the test function for paseto maker.
 package token
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TestPasetoMaker tests creating of paseto tokens.
 func TestPasetoMaker(t *testing.T) {
 	maker, err := NewPasetoMaker(utils.RandomString(32))
 	require.NoError(t, err)
@@ -35,6 +37,7 @@ func TestPasetoMaker(t *testing.T) {
 	require.WithinDuration(t, expiredAt, payload.ExpiredAt, time.Second)
 }
 
+// TestExpiredPasetoToken tests expiry of paseto tokens.
 func TestExpiredPasetoToken(t *testing.T) {
 	maker, err := NewPasetoMaker(utils.RandomString(32))
 	require.NoError(t, err)

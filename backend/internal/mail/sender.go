@@ -1,3 +1,5 @@
+// Package mail.sender defines functionalities for sending
+// email to stakeholders.
 package mail
 
 import (
@@ -15,7 +17,7 @@ const (
 	smtpServerAddress = "smtp.gmail.com:587"
 )
 
-// GmailSender defines the required interface to send a mail.
+// EmailSender defines the required interface to send a mail.
 type EmailSender interface {
 	SendEmail(
 		subject string,
