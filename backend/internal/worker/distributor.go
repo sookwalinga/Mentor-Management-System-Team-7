@@ -1,4 +1,4 @@
-// Package worker.distributor provides a task distributor for sending background tasks to redies
+// Package worker (distributor) provides a task distributor for sending background tasks to redies
 // using the Asynq task queue.
 package worker
 

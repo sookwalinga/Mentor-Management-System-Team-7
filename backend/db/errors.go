@@ -1,4 +1,4 @@
-// Package db.errors contains Database related errors.
+// Package db (errors) contains Database related errors.
 package db
 
 import "errors"

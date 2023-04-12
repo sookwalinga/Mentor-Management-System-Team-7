@@ -1,4 +1,4 @@
-// Package utils.password defines utility to generate password.
+// Package utils (password) defines utility to generate password.
 package utils
 
 import (

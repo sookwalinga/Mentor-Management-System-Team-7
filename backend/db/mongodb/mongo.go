@@ -1,4 +1,4 @@
-// Package mongodb.mongo contains the wrapper for the Mongo Client
+// Package mongodb (mongo) contains the wrapper for the Mongo Client
 // implementing the Store interface.
 package mongodb
 

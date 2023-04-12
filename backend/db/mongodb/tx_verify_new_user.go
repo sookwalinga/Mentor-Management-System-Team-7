@@ -1,4 +1,4 @@
-// Package mongodb.tx_verify_new_user defines the database transaction
+// Package mongodb (tx_verify_new_user) defines the database transaction
 // to create a user and queue verify email transaction.
 package mongodb
 

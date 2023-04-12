@@ -1,4 +1,4 @@
-// Package worker.processor provides a task processor for handling background tasks using the Asynq task queue.
+// Package worker (processor) provides a task processor for handling background tasks using the Asynq task queue.
 package worker
 
 import (

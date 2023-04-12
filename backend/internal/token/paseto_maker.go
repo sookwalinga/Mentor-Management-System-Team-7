@@ -1,4 +1,4 @@
-// Package token.paseto_maker defines the functionalities necessary to
+// Package token (paseto_maker) defines the functionalities necessary to
 // implement paseto token.
 package token
 

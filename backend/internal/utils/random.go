@@ -1,4 +1,4 @@
-// Package utils.random defines general utilities for codebase.
+// Package utils (random) defines general utilities for codebase.
 package utils
 
 import (
