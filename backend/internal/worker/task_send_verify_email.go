@@ -1,4 +1,4 @@
-// Package worker.task_send_verify_email provides functions to distribute
+// Package worker (task_send_verify_email) provides functions to distribute
 // and process verify email tasks.
 package worker
 
@@ -78,12 +78,12 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(
 		return fmt.Errorf("failed to create verify email: %w", err)
 	}
 
-	verifyUrl := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s", verifyEmail.ID, verifyEmail.SecretCode)
+	verifyURL := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s", verifyEmail.ID, verifyEmail.SecretCode)
 	subject := "Welcome to Andela"
 	content := fmt.Sprintf(`Hello %s, <br/>
 	Thank you for registering with us! <br/>
 	Please <a href="%s">Click here</a> to verify your email address.<br/>
-	`, user.ID, verifyUrl)
+	`, user.ID, verifyURL)
 	to := []string{verifyEmail.Email}
 	err = processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
 	if err != nil {

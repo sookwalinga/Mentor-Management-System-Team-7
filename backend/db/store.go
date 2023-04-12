@@ -1,4 +1,4 @@
-// Package db.store defines the Store interface that a datastore
+// Package db (store) defines the Store interface that a datastore
 // needs to implement/satisfy.
 package db
 

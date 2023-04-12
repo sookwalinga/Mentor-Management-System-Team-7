@@ -1,4 +1,4 @@
-// Package utils.random defines general utilities for codebase.
+// Package utils (random) defines general utilities for codebase.
 package utils
 
 import (
@@ -12,14 +12,10 @@ import (
 
 const alphabets = "abcdefghijklmnopqrstuvwxyz"
 
+// User role
 const (
-	// Admin role.
 	ADMIN  = "Admin"
-
-	// Mentor role.
-	MENTOR = "Mentor"
-
-	// Mentee role.
+	MENTOR = "Mentor" 
 	MENTEE = "Mentee"
 )
 

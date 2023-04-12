@@ -1,4 +1,4 @@
-// Package token.payload defines the token's payload.
+// Package token (payload) defines the token's payload.
 package token
 
 import (

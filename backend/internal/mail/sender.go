@@ -1,4 +1,4 @@
-// Package mail.sender defines functionalities for sending
+// Package mail (sender) defines functionalities for sending
 // email to stakeholders.
 package mail
 

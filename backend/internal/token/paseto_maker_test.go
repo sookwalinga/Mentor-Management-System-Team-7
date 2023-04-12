@@ -1,4 +1,3 @@
-// Package token.paseto_maker_test defines all the test function for paseto maker.
 package token
 
 import (

@@ -1,4 +1,4 @@
-// Package mongodb.user defines db queries for the user
+// Package mongodb (user) defines db queries for the user
 // collection.
 package mongodb
 

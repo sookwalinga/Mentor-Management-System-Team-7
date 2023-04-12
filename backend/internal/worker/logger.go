@@ -1,4 +1,4 @@
-// Package worker.logger provides custom logging formats ontop the zerolog logger.
+// Package worker (logger) provides custom logging formats ontop the zerolog logger.
 package worker
 
 import (

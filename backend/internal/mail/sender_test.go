@@ -1,4 +1,3 @@
-// Package mail.sender_test defines test functions for mail package.
 package mail
 
 import (

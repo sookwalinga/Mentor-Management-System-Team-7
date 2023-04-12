@@ -1,4 +1,4 @@
-// Package mongodb.verify_email defines db queries for the
+// Package mongodb (verify_email) defines db queries for the
 // verify_email collection.
 package mongodb
 
