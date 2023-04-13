@@ -1,4 +1,4 @@
-// Package (user) contains handlers for user data.
+// Package api (user) contains handlers for user data.
 package api
 
 import (
