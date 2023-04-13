@@ -20,8 +20,8 @@ func (mc *MongoClient) CreateUser(ctx context.Context, user *models.User) (*mode
 	if err != nil {
 		return nil, err
 	}
-	userID := result.InsertedID.(string)
-	return mc.GetUser(ctx, userID)
+	userID := result.InsertedID.(primitive.ObjectID)
+	return mc.GetUser(ctx, userID.Hex())
 }
 
 // GetUser retrieves a user document from the collection by ID.
@@ -31,8 +31,19 @@ func (mc *MongoClient) GetUser(ctx context.Context, id string) (*models.User, er
 		return nil, err
 	}
 	filter := bson.M{"_id": objID}
+
+	return mc.getUser(ctx, filter)
+}
+
+// GetUserByEmail retrieves a user document from the collection by email.
+func (mc *MongoClient) GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
+	filter := bson.M{"contact.email": email}
+	return mc.getUser(ctx, filter)
+}
+
+func (mc *MongoClient) getUser(ctx context.Context, filter bson.M) (*models.User, error) {
 	var user models.User
-	err = mc.client.Database(DBName).Collection(UsersCollection).
+	err := mc.client.Database(DBName).Collection(UsersCollection).
 		FindOne(ctx, filter).Decode(&user)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
@@ -55,15 +66,9 @@ func (mc *MongoClient) UpdateUser(
 	}
 	filter := bson.M{"_id": objID}
 
-	// Convert the updateData map to a BSON document
-	updateDoc, err := bson.Marshal(updateData)
-	if err != nil {
-		return nil, err
-	}
-
 	// Create an options document to specify which fields to update
 	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
-	update := bson.M{"$set": updateDoc}
+	update := bson.M{"$set": updateData}
 
 	// Perform the update operation and store the updated user in the updatedUser variable
 	updatedUser := &models.User{}

@@ -16,7 +16,7 @@ const (
 	QueueCritical = "critical"
 
 	// QueueDefault is the name of the default queue.
-	QueueDefault  = "default"
+	QueueDefault = "default"
 )
 
 // TaskProcessor is an interface for a worker that processes tasks.
@@ -24,7 +24,7 @@ type TaskProcessor interface {
 	// Start starts the RedisTaskProcessor.
 	Start() error
 
-	// ProcessTaskSendVerifyEmail processes a TaskSendVerifyEmail task by retrieving 
+	// ProcessTaskSendVerifyEmail processes a TaskSendVerifyEmail task by retrieving
 	// the task payload and sending a verification email to the user specified in the payload.
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
 }
@@ -67,6 +67,7 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 func (processor *RedisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
+	mux.HandleFunc(TaskSendResetPasswordEmail, processor.ProcessTaskSendResetPasswordEmail)
 
 	return processor.server.Start(mux)
 }

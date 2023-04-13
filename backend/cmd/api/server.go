@@ -16,10 +16,10 @@ import (
 
 // A Server serves HTTP requests for the banking system
 type Server struct {
-	config     utils.Config
-	store      db.Store
-	router     *gin.Engine
-	tokenMaker token.Maker
+	config          utils.Config
+	store           db.Store
+	router          *gin.Engine
+	tokenMaker      token.Maker
 	taskDistributor worker.TaskDistributor
 }
 
@@ -31,9 +31,9 @@ func NewServer(config utils.Config, store db.Store, taskDistributor worker.TaskD
 	}
 
 	server := &Server{
-		config:     config,
-		store:      store,
-		tokenMaker: tokenMaker,
+		config:          config,
+		store:           store,
+		tokenMaker:      tokenMaker,
 		taskDistributor: taskDistributor,
 	}
 
@@ -44,9 +44,11 @@ func NewServer(config utils.Config, store db.Store, taskDistributor worker.TaskD
 
 func (s *Server) setupRouter() {
 	router := gin.Default()
+	router.Use(loggerMiddleware())
+	router.POST("/api/v1/forgot_password", s.forgotPassword)
 
-	// TODO: setup routes and its equivalent handlers
-	// ex. router.POST("/users/login", s.loginUser)
+	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
+	authRoutes.PATCH("/api/v1/change_password", s.changeUserPassword)
 
 	s.router = router
 }
@@ -54,4 +56,8 @@ func (s *Server) setupRouter() {
 // Start run the HTTP server on a specific address.
 func (s *Server) Start(address string) error {
 	return s.router.Run(address)
+}
+
+func errorResponse(err error) gin.H {
+	return gin.H{"error": err.Error()}
 }

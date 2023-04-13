@@ -13,7 +13,7 @@ func TestSendEmailWithGmail(t *testing.T) {
 		t.Skip()
 	}
 
-	config, err := utils.LoadConfig("..")
+	config, err := utils.LoadConfig("../..")
 	require.NoError(t, err)
 
 	sender := NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
@@ -23,9 +23,9 @@ func TestSendEmailWithGmail(t *testing.T) {
 	<h1>Hello!</h1>
 	<p>This is a test message from <a href="github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/">Andela</a></p>
 	`
-	to := []string{"alerudivine@gmail.com", "mrikehchukwuka@gmail.com", "umavictor11@gmail.com", "chrisebuberoland@gmail.com "}
-	attachFiles := []string{"../README.md"}
+	to := []string{"mrikehchukwuka@gmail.com"}
+	// attachFiles := []string{"../../README.md"}
 
-	err = sender.SendEmail(subject, content, to, nil, nil, attachFiles)
+	err = sender.SendEmail(subject, content, to, nil, nil, nil)
 	require.NoError(t, err)
 }

@@ -15,7 +15,7 @@ const alphabets = "abcdefghijklmnopqrstuvwxyz"
 // User role
 const (
 	ADMIN  = "Admin"
-	MENTOR = "Mentor" 
+	MENTOR = "Mentor"
 	MENTEE = "Mentee"
 )
 
@@ -42,9 +42,8 @@ func RandomString(n int) string {
 }
 
 // RandomUserID generates a random user name.
-func RandomUserID() string {
-	userID := primitive.NewObjectID()
-	return userID.String()
+func RandomUserID() primitive.ObjectID {
+	return primitive.NewObjectID()
 }
 
 // UserRole returns a role if found.
