@@ -34,7 +34,7 @@ func (mc *MongoClient) GetUserAction(ctx context.Context, id string) (*models.Us
 	return userAction, err
 }
 
-// UpdateUserActions updates and returns a record from the user_actions collection
+// UpdateUserAction updates and returns a record from the user_actions collection
 func (mc MongoClient) UpdateUserAction(ctx context.Context, id string, updateData map[string]interface{}) (*models.UserAction, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

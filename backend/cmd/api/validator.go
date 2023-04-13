@@ -1,3 +1,4 @@
+// Package api (validator) defines custom validations to improve the error message.
 package api
 
 import (
@@ -37,9 +38,5 @@ func BindJSONWithValidation(ctx *gin.Context, req interface{}, validate *validat
 		return err
 	}
 
-	if err := validate.Struct(req); err != nil {
-		return err
-	}
-
-	return nil
+	return validate.Struct(req)
 }
