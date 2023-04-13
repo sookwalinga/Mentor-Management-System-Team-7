@@ -81,9 +81,12 @@ const Login = () => {
         </svg>
       </div>
 
-      <button className="btn bg-mmsPry3 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
+      <Link
+        href="/admin/dashboard"
+        className="btn bg-mmsPry3 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case"
+      >
         Login
-      </button>
+      </Link>
 
       <Link href="/forgot-password">
         <div className="flex justify-end text-mmsBlack1 hover:text-blue-700 my-2 cursor-pointer">
