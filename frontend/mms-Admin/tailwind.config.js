@@ -14,7 +14,12 @@ module.exports = {
       },
       colors: {
         mmsPry3: "#058B94",
-        mmsBlack1: "#141414"
+        mmsBlack1: "#141414",
+        mmsBlack2: "#333333",
+        mmsBlack3: "#4D4D4D",
+        mmsPry10: "#E6FDFE",
+        mmsBlack5: "#808080",
+        green11: "#F7FEFF"
       }
     }
   },
