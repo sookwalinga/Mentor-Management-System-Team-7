@@ -1,5 +1,5 @@
-// Package worker (task_send_verify_email) provides functions to distribute
-// and process verify email tasks.
+// Package worker (task_send_reset_password_email) provides functions to distribute
+// and process reset password email tasks.
 package worker
 
 import (
@@ -15,20 +15,20 @@ import (
 )
 
 const (
-	// TaskSendVerifyEmail represents the name of the task that sends the email verification email.
-	TaskSendVerifyEmail = "task:send_verify_email"
+	// TaskSendResetPasswordEmail represents the name of the task that sends the reset password email.
+	TaskSendResetPasswordEmail = "task:send_reset_password_email"
 )
 
-// PayloadSendVerifyEmail provides the userID.
-type PayloadSendVerifyEmail struct {
+// PayloadResetPasswordEmail provides the userEmail.
+type PayloadResetPasswordEmail struct {
 	UserID string `json:"user_id"`
 }
 
-// DistributeTaskSendVerifyEmail enqueues the given task to be processed by a worker. It returns an error if the task could
+// DistributeTaskSendResetPasswordEmail enqueues the given task to be processed by a worker. It returns an error if the task could
 // not be enqueued.
-func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
+func (distributor *RedisTaskDistributor) DistributeTaskSendResetPasswordEmail(
 	ctx context.Context,
-	payload *PayloadSendVerifyEmail,
+	payload *PayloadResetPasswordEmail,
 	opts ...asynq.Option,
 ) error {
 	jsonPayload, err := json.Marshal(payload)
@@ -36,7 +36,7 @@ func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
 		return fmt.Errorf("failed to marshal task payload: %w", err)
 	}
 
-	task := asynq.NewTask(TaskSendVerifyEmail, jsonPayload, opts...)
+	task := asynq.NewTask(TaskSendResetPasswordEmail, jsonPayload, opts...)
 	info, err := distributor.client.EnqueueContext(ctx, task)
 	if err != nil {
 		return fmt.Errorf("failed to enqueue task: %w", err)
@@ -51,12 +51,12 @@ func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
 	return nil
 }
 
-// ProcessTaskSendVerifyEmail processes a 'TaskSendVerifyEmail' task.
-func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(
+// ProcessTaskSendResetPasswordEmail processes a 'TaskSendResetPasswordEmail' task.
+func (processor *RedisTaskProcessor) ProcessTaskSendResetPasswordEmail(
 	ctx context.Context,
 	task *asynq.Task,
 ) error {
-	var payload PayloadSendVerifyEmail
+	var payload PayloadResetPasswordEmail
 	if err := json.Unmarshal(task.Payload(), &payload); err != nil {
 		return fmt.Errorf("failed to unmarshal payload: %w", asynq.SkipRetry)
 	}
@@ -67,28 +67,28 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(
 	}
 
 	now := time.Now()
-	verifyEmail, err := processor.store.CreateUserAction(ctx, &models.UserAction{
+	resetPassword, err := processor.store.CreateUserAction(ctx, &models.UserAction{
 		UserID:     user.ID,
 		Email:      user.Contact.Email,
 		SecretCode: utils.RandomString(64), // TODO: Substitute value with a token-based string
-		ActionType: "verify_email",
+		ActionType: "reset_password",
 		CreatedAt:  now,
 		ExpiredAt:  now.Add(15 * time.Minute),
 	})
 	if err != nil {
-		return fmt.Errorf("failed to create verify email: %w", err)
+		return fmt.Errorf("failed to create reset password email: %w", err)
 	}
 
-	verifyURL := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s", verifyEmail.ID, verifyEmail.SecretCode)
-	subject := "Welcome to Andela"
+	resetPasswordURL := fmt.Sprintf("http://localhost:8080/v1/reset_password?email_id=%d&secret_code=%s", resetPassword.ID, resetPassword.SecretCode)
+	subject := "Request to reset password"
 	content := fmt.Sprintf(`Hello %s, <br/>
-	Thank you for registering with us! <br/>
-	Please <a href="%s">Click here</a> to verify your email address.<br/>
-	`, user.ID, verifyURL)
-	to := []string{verifyEmail.Email}
+	Your request to change password has been processed! <br/>
+	Please <a href="%s">Click here</a> to reset your password.<br/>
+	`, user.ID, resetPasswordURL)
+	to := []string{resetPassword.Email}
 	err = processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to send verify email: %w", err)
+		return fmt.Errorf("failed to send reset password email: %w", err)
 	}
 
 	log.Info().Str("type", task.Type()).

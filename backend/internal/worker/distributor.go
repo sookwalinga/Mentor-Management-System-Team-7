@@ -16,9 +16,15 @@ type TaskDistributor interface {
 		paylocd *PayloadSendVerifyEmail,
 		opts ...asynq.Option,
 	) error
+
+	DistributeTaskSendResetPasswordEmail(
+		ctx context.Context,
+		payload *PayloadResetPasswordEmail,
+		opts ...asynq.Option,
+	) error
 }
 
-// RedisTaskDistributor defines and wrap a asynq client 
+// RedisTaskDistributor defines and wrap a asynq client
 // to distribute task to redis.
 type RedisTaskDistributor struct {
 	client *asynq.Client

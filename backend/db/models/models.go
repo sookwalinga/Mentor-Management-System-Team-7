@@ -74,12 +74,13 @@ type Support struct {
 	Body  string `bson:"body,omitempty"`
 }
 
-// VerifyEmail represents email verification details for a user
-type VerifyEmail struct {
+// UserAction represents user action details
+type UserAction struct {
 	ID         primitive.ObjectID `bson:"_id,omitempty"`
 	UserID     primitive.ObjectID `bson:"user_id,omitempty"`
 	Email      string             `bson:"email,omitempty"`
 	SecretCode string             `bson:"secret_code,omitempty"`
+	ActionType string             `bson:"action_type,omitempty"`
 	IsUsed     bool               `bson:"is_used,omitempty"`
 	CreatedAt  time.Time          `bson:"created_at,omitempty"`
 	ExpiredAt  time.Time          `bson:"expired_at,omitempty"`

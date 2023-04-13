@@ -12,13 +12,13 @@ import (
 
 const (
 	// DBName defines database name.
-	DBName                 = ""
+	DBName = "MMS-Team7"
 
 	// UsersCollection defines users collection name.
-	UsersCollection        = "users"
+	UsersCollection = "users"
 
-	// VerifyEmailsCollection defines verify_emails collection name.
-	VerifyEmailsCollection = "verify_emails"
+	// UserActionsCollection defines user_actions collection name.
+	UserActionsCollection = "user_actions"
 )
 
 // MongoClient defines a Mongodb-based client.
