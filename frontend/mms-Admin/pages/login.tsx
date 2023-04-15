@@ -95,13 +95,12 @@ const Login = () => {
       </Link>
       <button className="btn btn-outline btn-accent hover:bg-teal-700 text-white font-bold py-2 px-4 rounded w-full normal-case">
         <Image src="/images/image 1.png" alt="Google" width={30} height={20} />
-        {"  "}
         <span className="px-4 text-mmsBlack1"> Signin with Google</span>
       </button>
       <div className="flex justify-center mt-4  text-mmsBlack1">
         New User?{" "}
         <Link href="/">
-          <span className="px-1 font-bold underline"> Signup</span>
+          <span className="px-1 font-bold underline "> Signup</span>
         </Link>
       </div>
     </AuthLayout>

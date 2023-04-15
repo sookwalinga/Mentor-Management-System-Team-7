@@ -1,12 +1,10 @@
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 
 import {
-  profileIcon,
   mentorsIconLarge,
   mentorsManagerIconLarge,
   taskIconLarge,
   reportIconLarge,
-  dashboardIcon,
   GADSIcon
 } from "@/public";
 import Image from "next/image";

@@ -2,7 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
-const AuthLayout = ({ children, title }) => (
+interface authLayout {
+  children?: React.ReactNode;
+  title?: string;
+}
+
+const AuthLayout = ({ children, title }: authLayout) => (
   <div className="h-screen flex">
     <Head>
       <title>{title}</title>
