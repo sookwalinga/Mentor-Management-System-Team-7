@@ -49,8 +49,8 @@ func (s *Server) setupRouter() {
 
 	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
 	authRoutes.PATCH("/api/v1/change_password", s.changeUserPassword)
-	authRoutes.POST("/api/v1/faqs", s.CreateFAQ)
-	authRoutes.GET("/api/v1/faqs", s.GetAllFAQs)
+	authRoutes.POST("/api/v1/faqs", s.createFAQ)
+	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
 
 	s.router = router
 }

@@ -1,3 +1,4 @@
+// Package api (faq) defines handlers for creating and retrieving FAQs.
 package api
 
 import (
@@ -12,14 +13,14 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type CreateFAQRequest struct {
+type createFAQRequest struct {
 	Question string `json:"question" binding:"required"`
 	Answer   string `json:"answer" binding:"required"`
 	Category string `json:"category" binding:"required"`
 }
 
-func (server *Server) CreateFAQ(ctx *gin.Context) {
-	var req CreateFAQRequest
+func (server *Server) createFAQ(ctx *gin.Context) {
+	var req createFAQRequest
 	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
@@ -54,7 +55,7 @@ func (server *Server) CreateFAQ(ctx *gin.Context) {
 		Msg("FAQ created")
 }
 
-func (server *Server) GetAllFAQs(ctx *gin.Context) {
+func (server *Server) getAllFAQs(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	resp, err := server.store.GetAllFAQs(ctx)

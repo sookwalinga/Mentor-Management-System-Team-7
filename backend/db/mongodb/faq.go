@@ -1,3 +1,4 @@
+// Package mongodb (faq) defines functions to create and get FAQ records from DB.
 package mongodb
 
 import (
