@@ -14,9 +14,10 @@ const alphabets = "abcdefghijklmnopqrstuvwxyz"
 
 // User role
 const (
-	ADMIN  = "Admin"
-	MENTOR = "Mentor"
-	MENTEE = "Mentee"
+	SUPERADMIN = "SuperAdmin"
+	ADMIN      = "Admin"
+	MENTOR     = "Mentor"
+	MENTEE     = "Mentee"
 )
 
 func init() {

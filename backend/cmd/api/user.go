@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db"
+	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db/models"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/token"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/utils"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/worker"
@@ -97,8 +98,24 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 		return
 	}
 
+	now := time.Now()
+	resetPassword, err := server.store.CreateUserAction(ctx, &models.UserAction{
+		UserID:     user.ID,
+		Email:      user.Contact.Email,
+		SecretCode: utils.RandomString(64), // TODO: Substitute value with a token-based string
+		ActionType: "reset_password",
+		CreatedAt:  now,
+		ExpiredAt:  now.Add(15 * time.Minute),
+	})
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	task := &worker.PayloadResetPasswordEmail{
-		UserID: user.ID.Hex(),
+		ID:        resetPassword.ID.Hex(),
+		UserID:    user.ID.Hex(),
+		UserEmail: user.Contact.Email,
 	}
 	opts := []asynq.Option{
 		asynq.MaxRetry(10),
@@ -108,7 +125,15 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 	err = server.taskDistributor.DistributeTaskSendResetPasswordEmail(ctx, task, opts...)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		log.Error().Err(err).
+			Str("user_id", user.ID.Hex()).
+			Str("request_method", ctx.Request.Method).
+			Str("request_path", ctx.Request.URL.Path).
+			Msg("task 'reset password' failed to enqueued")
+		return
 	}
+
+	ctx.JSON(http.StatusOK, envelop{"data": "password resetted"})
 
 	log.Info().
 		Str("user_id", user.ID.Hex()).

@@ -19,10 +19,10 @@ func TestPasetoMaker(t *testing.T) {
 	require.NoError(t, err)
 
 	// userID := utils.RandomUserID().Hex()
-	userID, err := primitive.ObjectIDFromHex("6437e9240e34743f3fba3fa3")
+	userID, err := primitive.ObjectIDFromHex("643a7dedbc8c7b338e50bd0f")
 	require.NoError(t, err)
 
-	userRole := utils.UserRole("Admin")
+	userRole := "SuperAdmin"
 	duration := 15 * time.Minute
 
 	issuedAt := time.Now()
