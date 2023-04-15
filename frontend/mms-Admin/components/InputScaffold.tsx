@@ -32,20 +32,20 @@ function InputScaffold(
   } = props;
   return (
     <div
-      className={clsx("InputScaffold", className, {
-        "InputScaffold--fullWidth": fullWidth,
-        "InputScaffold--gutter-bottom": gutterBottom,
+      className={clsx("inline-block", className, {
+        "w-full block": fullWidth,
+        "mb-4": gutterBottom,
       })}
       {...rest}
     >
       {!!label && (
-        <span className="InputScaffold__label text-start">{label}</span>
+        <span className="text-sm text-gray-600 block mb-1 text-start">{label}</span>
       )}
       <div
-        className={clsx("InputScaffold__input", {
-          "InputScaffold__input--small": size === "small",
-          "InputScaffold__input--medium": size === "medium",
-          "InputScaffold__input--large": size === "large",
+        className={clsx("bg-white flex justify-center gap-2 text-gray-600 px-4 border border-gray-200 border-solid rounded-md", {
+          "min-h-[40px]": size === "small",
+          "min-h-[48px]": size === "medium",
+          "min-h-[56px]": size === "large",
         })}
       >
         {!!prefix && <div className="self-center">{prefix}</div>}

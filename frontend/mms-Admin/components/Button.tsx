@@ -17,7 +17,7 @@ export interface ButtonProps {
     return (
       <button
         ref={ref}
-        className={clsx("button", ButtonVariantClass[variant!], className)}
+        className={clsx("inline-flex cursor-pointer justify-center items-center font-semibold gap-1  rounded-lg", ButtonVariantClass[variant!], className)}
         {...rest}
       >
         {prefix}
@@ -30,6 +30,6 @@ export interface ButtonProps {
   export default Button;
   
   const ButtonVariantClass: any = {
-    primary: "button-primary",
-    secondary: "button-secondary",
+    primary: "bg-mmsPry3 text-white",
+    secondary: "bg-green11 text-mmsPry3 border border-mmsPry3",
   };

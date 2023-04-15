@@ -1,6 +1,5 @@
 import { Button, InputField, SelectField, TextareaField } from "@/components";
 import Input from "@/components/InputFields";
-import InputScaffold from "@/components/InputScaffold";
 import SettingsLayout from "@/components/Settings/SettingsLayout";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import { avatarIcon } from "@/public";
@@ -19,7 +18,7 @@ const General = () => {
             <h3 className="text-mmsBlack2 font-semibold text-xl">
               Set Profile Picture
             </h3>
-            <Button variant="primary" className="py-1 px-[15px] text-xs">
+            <Button variant="primary" className="py-2 px-[18px] text-sm">
               Upload Picture
             </Button>
           </div>
@@ -180,8 +179,8 @@ const General = () => {
               />
             </div>
           </div>
-          <div className="flex justify-end">
-            <Button variant="primary">Save Changes</Button>
+          <div className="flex justify-end mt-5">
+            <Button variant="primary" className="text-base px-4 py-2">Save Changes</Button>
           </div>
         </div>
       </div>

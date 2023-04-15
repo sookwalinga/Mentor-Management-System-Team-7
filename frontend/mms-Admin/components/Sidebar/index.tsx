@@ -80,7 +80,7 @@ let links = [
   {
     name: "Settings",
     icon: settingsIcon,
-    link: "/admin/settings"
+    link: "/admin/settings/general"
   }
 ];
 
