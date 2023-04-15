@@ -2,88 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .button {
-    display: inline-flex;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-    gap: 0.25rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 10px;
-  }
+.button {
+  display: inline-flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  gap: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 10px;
+}
 
-  .button-primary {
-    background: #058b94;
-    color: #fff;
-  }
+.button-primary {
+  background: #058b94;
+  color: #fff;
+}
 
-  .button-primary:hover {
-    background: #058b94;
-  }
+.button-primary:hover {
+  background: #058b94;
+}
 
-  .button-secondary {
-    background: #e6fdfe;
-    color: #058b94;
-  }
+.button-secondary {
+  background: #e6fdfe;
+  color: #058b94;
+}
 
-  .button-secondary:hover {
-    background: #058b94;
-    color: #e6fdfe;
-  }
+.button-secondary:hover {
+  background: #058b94;
+  color: #e6fdfe;
+}
 
-  .Input__input {
-    background-color: transparent;
-    flex: 1 1 0%;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    min-width: none;
-  }
+.Input__input {
+  background-color: transparent;
+  flex: 1 1 0%;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  min-width: none;
+}
 
-  .InputScaffold {
-    display: inline-block;
-  }
+.InputScaffold {
+  display: inline-block;
+}
 
-  .InputScaffold--gutter-bottom {
-    margin-bottom: 16px;
-  }
+.InputScaffold--gutter-bottom {
+  margin-bottom: 16px;
+}
 
-  .InputScaffold--fullWidth {
-    width: 100%;
-    display: block;
-  }
+.InputScaffold--fullWidth {
+  width: 100%;
+  display: block;
+}
 
-  .InputScaffold__label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 4px;
-  }
+.InputScaffold__label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
 
-  .InputScaffold__input {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    color: #333;
-    border: 1px solid rgb(229 231 235 / var(--tw-border-opacity));
-    border-radius: 6px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
+.InputScaffold__input {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #333;
+  border: 1px solid rgb(229 231 235 / var(--tw-border-opacity));
+  border-radius: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
 
-  .InputScaffold__input--small {
-    min-height: 40px;
-  }
+.InputScaffold__input--small {
+  min-height: 40px;
+}
 
-  .InputScaffold__input--medium {
-    min-height: 48px;
-  }
+.InputScaffold__input--medium {
+  min-height: 48px;
+}
 
-  .InputScaffold__input--large {
-    min-height: 56px;
-  }}
+.InputScaffold__input--large {
+  min-height: 56px;
+}
