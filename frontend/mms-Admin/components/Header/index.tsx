@@ -43,7 +43,7 @@ export const Header = () => {
             className="cursor-pointer"
           />
 
-          <div className="avatar">
+          <div className="avatar lg:flex hidden">
             <div className="w-[42px] h-[42px] rounded-full cursor-pointer ">
               <Image src={avatarIcon} alt="avatar" />
             </div>
