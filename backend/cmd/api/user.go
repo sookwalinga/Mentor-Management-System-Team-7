@@ -143,3 +143,56 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 		Str("request_path", ctx.Request.URL.Path).
 		Msg("task 'reset password' enqueued")
 }
+
+// Login
+type userLogin struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8"`
+}
+
+func (server *Server) login(ctx *gin.Context) {
+	var req userLogin
+	// Validate request.
+	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+		return
+	}
+	// Get user by email.
+	user, err := server.store.GetUserByEmail(ctx, req.Email)
+	if err != nil {
+		switch {
+		case errors.Is(err, db.ErrRecordNotFound):
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+		default:
+			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		}
+		return
+	}
+	// Check password.
+	err = utils.CheckPassword(req.Password, user.HashedPassword)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+	// Create token.
+	token, payload, err := server.tokenMaker.CreateToken(user.ID.Hex(), user.Role, 24*time.Hour)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	// Return token.
+	ctx.JSON(http.StatusOK,
+		gin.H{
+			"token":   token,
+			"payload": payload,
+		},
+	)
+// Log user login where 
+	log.Info().
+		Str("user_id", user.ID.Hex()).
+		Str("ip_address", ctx.ClientIP()).
+		Str("user_agent", ctx.Request.UserAgent()).
+		Str("request_method", ctx.Request.Method).
+		Str("request_path", ctx.Request.URL.Path).
+		Msg("user logged in")
+}
