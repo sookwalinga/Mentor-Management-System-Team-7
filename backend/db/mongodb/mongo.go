@@ -19,6 +19,9 @@ const (
 
 	// UserActionsCollection defines user_actions collection name.
 	UserActionsCollection = "user_actions"
+
+	// FAQCollection defines FAQ collection name.
+	FAQCollection = "faq"
 )
 
 // MongoClient defines a Mongodb-based client.
