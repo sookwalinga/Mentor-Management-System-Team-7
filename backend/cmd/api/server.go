@@ -49,6 +49,8 @@ func (s *Server) setupRouter() {
 
 	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
 	authRoutes.PATCH("/api/v1/change_password", s.changeUserPassword)
+	authRoutes.POST("/api/v1/faqs", s.CreateFAQ)
+	authRoutes.GET("/api/v1/faqs", s.GetAllFAQs)
 
 	s.router = router
 }
@@ -61,3 +63,5 @@ func (s *Server) Start(address string) error {
 func errorResponse(err error) gin.H {
 	return gin.H{"error": err.Error()}
 }
+
+type envelop map[string]interface{}
