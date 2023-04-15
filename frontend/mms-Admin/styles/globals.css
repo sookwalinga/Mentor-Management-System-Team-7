@@ -17,22 +17,22 @@
   }
 
   .button-primary {
-    background: #058B94;
-    color: #FFFFFF;
+    background: #058b94;
+    color: #fff;
   }
 
   .button-primary:hover {
-    background: #058B94;
+    background: #058b94;
   }
 
   .button-secondary {
-    background: #E6FDFE;
-    color: #058B94;
+    background: #e6fdfe;
+    color: #058b94;
   }
 
   .button-secondary:hover {
-    background: #058B94;
-    color: #E6FDFE;
+    background: #058b94;
+    color: #e6fdfe;
   }
 
   .Input__input {
@@ -46,7 +46,7 @@
   }
 
   .InputScaffold {
-    display: inline-block
+    display: inline-block;
   }
 
   .InputScaffold--gutter-bottom {
@@ -60,19 +60,20 @@
 
   .InputScaffold__label {
     font-size: 14px;
-    color: #333333;
+    color: #333;
     margin-bottom: 4px;
   }
 
   .InputScaffold__input {
-    background-color: #FFFFFF;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    color: #333333;
+    color: #333;
     border: 1px solid rgb(229 231 235 / var(--tw-border-opacity));
     border-radius: 6px;
-    padding: 0px 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .InputScaffold__input--small {
@@ -85,5 +86,4 @@
 
   .InputScaffold__input--large {
     min-height: 56px;
-  }
-}
+  }}
