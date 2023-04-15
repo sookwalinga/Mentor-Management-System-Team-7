@@ -17,12 +17,18 @@ export const DashboardLayout = ({ children, title }: dashboardLayout) => {
         {/* Header */}
         <Header />
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto pl-72 pr-[61px] mt-32">
+        <main className="flex-1 overflow-y-auto lg:pl-72 p-6 lg:pr-[61px] mt-32">
           {title && (
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-[12px] ">
               <h1 className="text-2xl font-semibold mb-[0.75rem] text-mmsBlack1">
                 {title}
               </h1>
+
+              {title === "Dashboard" && (
+                <select className="bg-green11 border border-mmsPry10 rounded-[5px] w-[122px] h-[38px] text-mmsBlack2 outline-none text-lg font-normal pl-[10px]">
+                  <option value="volvo">This Week </option>
+                </select>
+              )}
             </div>
           )}
 
