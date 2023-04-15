@@ -6,25 +6,10 @@
     .button {
         @apply inline-flex cursor-pointer justify-center items-center text-[18px] font-semibold gap-1 px-4 py-3 rounded-[10px];
     }
-    .button-primary {
-        @apply bg-mmsPry3 text-white
-    }
-    .button-primary:hover {
-        @apply bg-mmsPry3;
-    }
-    .button-secondary {
-        @apply bg-green11 text-mmsPry3;
-      }
-    
-      .button-secondary:hover {
-        @apply bg-mmsPry3 text-green11;
-      }
-
-       /* input */
-
-  .Input {
-}
-
+    .button-primary { @apply bg-mmsPry3 text-white }
+    .button-primary:hover { @apply bg-mmsPry3;}
+    .button-secondary { @apply bg-green11 text-mmsPry3;}
+   
 .Input__input {
   @apply bg-transparent flex-1 outline-none py-3;
   min-width: 0px;
