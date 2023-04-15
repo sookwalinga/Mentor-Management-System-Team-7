@@ -136,6 +136,11 @@ const Profile = () => {
               />
             </div>
           </div>
+          <div>
+            <Button variant="primary">
+              Save Changes
+            </Button>
+          </div>
         </div>
       </div>
     </SettingsLayout>
