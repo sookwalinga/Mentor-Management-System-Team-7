@@ -7,11 +7,11 @@ coordination of mentors needed to execute projects, ranging from recruitment to 
 
 ## Requirements
 To build and run this project, you will need:
-- Go v1.16 or later
-- [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
-- [make(1)](https://man7.org/linux/man-pages/man1/make.1.html) utility
-- [Redis](https://redis.io/)
-- Mongo Database
+-   Go v1.16 or later
+-   [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
+-   [make(1)](https://man7.org/linux/man-pages/man1/make.1.html) utility
+-   [Redis](https://redis.io/)
+-   Mongo Database
 
 ## Deployment
 The makefile included in this project provides several helpful commands to simplify the deployment and testing process. Set the [DB_SOURCE]("./app.env") environment variable to a valid Mongo connection string. 
