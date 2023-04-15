@@ -7,7 +7,7 @@ import { avatarIcon } from "@/public";
 import Image from "next/image";
 import React, { ReactElement } from "react";
 
-const Profile = () => {
+const General = () => {
   return (
     <SettingsLayout>
       <div className="border border-[#E6E6E6] rounded-md p-3">
@@ -147,8 +147,8 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default General;
 
-Profile.getLayout = function getLayout(page: ReactElement) {
+General.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
