@@ -86,4 +86,10 @@ type UserAction struct {
 	ExpiredAt  time.Time          `bson:"expired_at,omitempty"`
 }
 
-// TODO: define model for FAQ.
+// Faq represents faq details
+type Faq struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Question string             `bson:"question" json:"question"`
+	Answer   string             `bson:"answer" json:"answer"`
+	Category string             `bson:"category" json:"category"`
+}

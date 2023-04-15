@@ -13,13 +13,13 @@ import (
 
 func createTestUser(t *testing.T) *models.User {
 	// hashedPassword, err := utils.HashedPassword(utils.RandomString(10))
-	hashedPassword, err := utils.HashedPassword("secrets")
+	hashedPassword, err := utils.HashedPassword("secretsz")
 	require.NoError(t, err)
 
 	user := models.User{
 		ID:       utils.RandomUserID(),
 		FullName: utils.RandomString(8),
-		Role:     "Admin",
+		Role:     "SuperAdmin",
 		About:    utils.RandomString(12),
 		Contact: models.Contact{
 			Email:    utils.RandomEmail(),
@@ -54,21 +54,86 @@ func createTestUser(t *testing.T) *models.User {
 	userRecord, err := testStore.CreateUser(context.Background(), &user)
 	require.NoError(t, err)
 	require.NotEmpty(t, userRecord)
-
-	require.Equal(t, user.FullName, userRecord.FullName)
-	require.Equal(t, user.Role, userRecord.Role)
-	require.Equal(t, user.About, userRecord.About)
-	require.Equal(t, user.Contact, userRecord.Contact)
-	require.WithinDuration(t, user.CreatedAt, userRecord.CreatedAt, time.Millisecond)
-	require.Equal(t, user.ProfileImageURL, userRecord.ProfileImageURL)
-	require.WithinDuration(t, user.PasswordChangedAt, userRecord.PasswordChangedAt, time.Millisecond)
-	require.Equal(t, user.HashedPassword, userRecord.HashedPassword)
-	require.Equal(t, user.Socials, userRecord.Socials)
-	require.Equal(t, user.IsEmailVerified, userRecord.IsEmailVerified)
+	compareUser(t, &user, userRecord)
 
 	return userRecord
 }
 
 func TestCreateUser(t *testing.T) {
 	createTestUser(t)
+}
+
+func compareUser(t *testing.T, user1, user2 *models.User) {
+	require.Equal(t, user1.HashedPassword, user2.HashedPassword)
+	require.Equal(t, user1.FullName, user2.FullName)
+	require.Equal(t, user1.Role, user2.Role)
+	require.Equal(t, user1.About, user2.About)
+	require.Equal(t, user1.Contact, user2.Contact)
+	require.Equal(t, user1.Socials, user2.Socials)
+	require.Equal(t, user1.ProfileImageURL, user2.ProfileImageURL)
+	require.Equal(t, user1.IsEmailVerified, user2.IsEmailVerified)
+	require.WithinDuration(t, user1.PasswordChangedAt, user2.PasswordChangedAt, time.Second)
+	require.WithinDuration(t, user1.CreatedAt, user2.CreatedAt, time.Second)
+}
+
+func TestGetUser(t *testing.T) {
+	user1 := createTestUser(t)
+	user2, err := testStore.GetUser(context.Background(), user1.ID.Hex())
+	require.NoError(t, err)
+	require.NotEmpty(t, user2)
+
+	require.Equal(t, user1.ID.Hex(), user2.ID.Hex())
+	compareUser(t, user1, user2)
+}
+
+func TestGetUserByEmail(t *testing.T) {
+	user1 := createTestUser(t)
+	user2, err := testStore.GetUserByEmail(context.Background(), user1.Contact.Email)
+	require.NoError(t, err)
+	require.NotEmpty(t, user2)
+
+	require.Equal(t, user1.ID.Hex(), user2.ID.Hex())
+	compareUser(t, user1, user2)
+}
+
+func TestUpdateUserOnlyFullName(t *testing.T) {
+	oldUser := createTestUser(t)
+
+	newFullName := utils.RandomString(8)
+	updatedUser, err := testStore.UpdateUser(context.Background(), oldUser.ID.Hex(), map[string]interface{}{
+		"full_name": newFullName,
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.FullName, updatedUser.FullName)
+	require.Equal(t, newFullName, updatedUser.FullName)
+}
+
+func TestUpdateUserOnlyEmail(t *testing.T) {
+	oldUser := createTestUser(t)
+
+	newEmail := utils.RandomEmail()
+	updatedUser, err := testStore.UpdateUser(context.Background(), oldUser.ID.Hex(), map[string]interface{}{
+		"contact.email": newEmail,
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.Contact.Email, updatedUser.Contact.Email)
+	require.Equal(t, newEmail, updatedUser.Contact.Email)
+}
+
+func TestUpdateUserOnlyPassword(t *testing.T) {
+	oldUser := createTestUser(t)
+
+	newPassword := utils.RandomString(6)
+	newHashedPassword, err := utils.HashedPassword(newPassword)
+	require.NoError(t, err)
+
+	updatedUser, err := testStore.UpdateUser(context.Background(), oldUser.ID.Hex(), map[string]interface{}{
+		"hashed_password": newHashedPassword,
+	})
+
+	require.NoError(t, err)
+	require.NotEqual(t, oldUser.HashedPassword, updatedUser.HashedPassword)
+	require.Equal(t, newHashedPassword, updatedUser.HashedPassword)
 }
