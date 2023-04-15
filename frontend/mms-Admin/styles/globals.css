@@ -4,23 +4,23 @@
 
 @layer components {
   .button {
-    @apply inline-flex cursor-pointer justify-center items-center text-[18px] font-semibold gap-1 px-4 py-3 rounded-[10px]
+    @apply inline-flex cursor-pointer justify-center items-center text-[18px] font-semibold gap-1 px-4 py-3 rounded-[10px];
   }
 
   .button-primary {
-    @apply bg-mmsPry3 text-white
+    @apply bg-mmsPry3 text-white;
   }
 
   .button-primary:hover {
-    @apply bg-mmsPry3
+    @apply bg-mmsPry3;
   }
 
   .button-secondary {
-    @apply bg-green11 text-mmsPry3
+    @apply bg-green11 text-mmsPry3;
   }
 
   .button-secondary:hover {
-    @apply bg-mmsPry3 text-green11
+    @apply bg-mmsPry3 text-green11;
   }
 
   .Input__input {
@@ -32,11 +32,11 @@
   }
 
   .InputScaffold--gutter-bottom {
-    @apply mb-4
+    @apply mb-4;
   }
 
   .InputScaffold--fullWidth {
-    @apply w-full block
+    @apply w-full block;
   }
 
   .InputScaffold__label {
