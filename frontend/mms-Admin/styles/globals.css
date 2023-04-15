@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .button {
+        @apply inline-flex cursor-pointer justify-center items-center text-[18px] font-semibold gap-1 px-4 py-3 rounded-[10px];
+    }
+    .button-primary {
+        @apply bg-mmsPry3 text-white
+    }
+    .button-primary:hover {
+        @apply bg-mmsPry3;
+    }
+    .button-secondary {
+        @apply bg-green11 text-mmsPry3;
+      }
+    
+      .button-secondary:hover {
+        @apply bg-mmsPry3 text-green11;
+      }
+
+       /* input */
+
+  .Input {
+}
+
+.Input__input {
+  @apply bg-transparent flex-1 outline-none py-3;
+  min-width: 0px;
+}
+
+.InputScaffold {
+  @apply inline-block;
+}
+
+.InputScaffold--gutter-bottom {
+  @apply mb-4;
+}
+
+.InputScaffold--fullWidth {
+  @apply w-full block;
+}
+
+.InputScaffold__label {
+  @apply text-sm text-mmsBlack2 block mb-1;
+}
+
+.InputScaffold__input {
+  @apply bg-white flex justify-center gap-2 text-mmsBlack2 px-4 border border-gray-200 border-solid rounded-md;
+}
+
+.InputScaffold__input--small {
+  min-height: 40px;
+}
+
+.InputScaffold__input--medium {
+  min-height: 48px;
+}
+.InputScaffold__input--large {
+  min-height: 56px;
+}
+
+.InputScaffold__input:focus-within {
+  @apply ring-2 ring-inset ring-mmsBlack2;
+}
+
+.InputScaffold__input:focus-visible {
+  @apply ring-2 ring-inset ring-mmsBlack2;
+}
+}

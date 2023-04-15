@@ -10,9 +10,9 @@ const SettingsLayout = ({ children }: settingsLayout) => {
       <h1 className="text-2xl font-semibold mb-[0.75rem] text-mmsBlack1">
         Settings
       </h1>
-      <div className="grid grid-cols-3">
+      <div className="flex items-start">
         <SettingsSidebar />
-        <div className="span-col-2">{children}</div>
+        <div className="mx-7 w-[840px]">{children}</div>
       </div>
     </div>
   );
