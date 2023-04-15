@@ -46,7 +46,7 @@ func (s *Server) setupRouter() {
 	router := gin.Default()
 	router.Use(loggerMiddleware())
 	router.POST("/api/v1/forgot_password", s.forgotPassword)
-
+	router.POST("/api/v1/login", s.login)
 	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
 	authRoutes.PATCH("/api/v1/change_password", s.changeUserPassword)
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
