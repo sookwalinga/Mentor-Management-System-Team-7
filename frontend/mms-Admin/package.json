@@ -6,10 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "commitlint": "npx --no-install commitlint --edit $1",
-    "prepare": "husky install",
-    "prepare-commit-message": "exec < /dev/tty && git cz --hook || true"
+    "lint": "next lint"
+   
+    
   },
   "dependencies": {
     "@types/node": "18.15.11",
