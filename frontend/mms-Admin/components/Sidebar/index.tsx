@@ -26,57 +26,57 @@ let links = [
     icon: profileIcon,
     link: "/admin/profile"
   },
-  {
-    name: "Dashboard",
-    icon: dashboardIcon,
-    link: "/admin/dashboard"
-  },
-  {
-    name: " Programs",
-    icon: programsIcon,
-    link: "/admin/programs"
-  },
-  {
-    name: "Tasks",
-    icon: taskIcon,
-    link: "/admin/tasks"
-  },
-  {
-    name: "Reports",
-    icon: reportIcon,
-    link: "/admin/reports"
-  },
-  {
-    name: "Mentors",
-    icon: mentorsIcon,
-    link: "/admin/mentors"
-  },
-  {
-    name: "Mentors Manager",
-    icon: mentorsManagerIcon,
-    link: "/admin/mentors-manager"
-  },
-  {
-    name: "Messages",
-    icon: messagesIcon,
-    link: "/admin/messages"
-  },
-  {
-    name: "Discussions",
-    icon: discussionIcon,
-    link: "/admin/discussions"
-  },
-  {
-    name: "Approval",
-    icon: approvalIcon,
+  // {
+  //   name: "Dashboard",
+  //   icon: dashboardIcon,
+  //   link: "/admin/dashboard"
+  // },
+  // {
+  //   name: " Programs",
+  //   icon: programsIcon,
+  //   link: "/admin/programs"
+  // },
+  // {
+  //   name: "Tasks",
+  //   icon: taskIcon,
+  //   link: "/admin/tasks"
+  // },
+  // {
+  //   name: "Reports",
+  //   icon: reportIcon,
+  //   link: "/admin/reports"
+  // },
+  // {
+  //   name: "Mentors",
+  //   icon: mentorsIcon,
+  //   link: "/admin/mentors"
+  // },
+  // {
+  //   name: "Mentors Manager",
+  //   icon: mentorsManagerIcon,
+  //   link: "/admin/mentors-manager"
+  // },
+  // {
+  //   name: "Messages",
+  //   icon: messagesIcon,
+  //   link: "/admin/messages"
+  // },
+  // {
+  //   name: "Discussions",
+  //   icon: discussionIcon,
+  //   link: "/admin/discussions"
+  // },
+  // {
+  //   name: "Approval",
+  //   icon: approvalIcon,
 
-    link: "/admin/approval"
-  },
-  {
-    name: "Certificates",
-    icon: certificateIcon,
-    link: "/admin/certificates"
-  },
+  //   link: "/admin/approval"
+  // },
+  // {
+  //   name: "Certificates",
+  //   icon: certificateIcon,
+  //   link: "/admin/certificates"
+  // },
   {
     name: "Settings",
     icon: settingsIcon,
