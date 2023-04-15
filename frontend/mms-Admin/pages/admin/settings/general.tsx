@@ -103,7 +103,18 @@ const General = () => {
             </span>
             <div className="ml-[11%] grid grid-cols-2 gap-x-8 gap-y-4 items-center">
               <Input
-              prefix={<div className="flex items-center"> <Image src="/images/svgs/githubIcon.svg" height={24} width={24} alt="github"/> <span className="ml-2"> Github</span></div>}
+                prefix={
+                  <div className="flex items-center">
+                    {" "}
+                    <Image
+                      src="/images/svgs/githubIcon.svg"
+                      height={24}
+                      width={24}
+                      alt="github"
+                    />{" "}
+                    <span className="ml-2"> Github</span>
+                  </div>
+                }
                 label=""
                 placeholder="@githubuser"
                 id="githubUser"
@@ -111,7 +122,18 @@ const General = () => {
                 className="w-[294px]"
               />
               <Input
-              prefix={<div className="flex items-center"> <Image src="/images/svgs/instagramIcon.svg" height={24} width={24} alt="github"/> <span className="ml-2"> Github</span></div>}
+                prefix={
+                  <div className="flex items-center">
+                    {" "}
+                    <Image
+                      src="/images/svgs/instagramIcon.svg"
+                      height={24}
+                      width={24}
+                      alt="github"
+                    />{" "}
+                    <span className="ml-2"> Github</span>
+                  </div>
+                }
                 label=""
                 placeholder="@githubuser"
                 id="githubUser"
@@ -119,7 +141,18 @@ const General = () => {
                 className="w-[294px] ml-8"
               />
               <Input
-              prefix={<div className="flex items-center"> <Image src="/images/svgs/linkedinIcon.svg" height={24} width={24} alt="github"/> <span className="ml-2"> Github</span></div>}
+                prefix={
+                  <div className="flex items-center">
+                    {" "}
+                    <Image
+                      src="/images/svgs/linkedinIcon.svg"
+                      height={24}
+                      width={24}
+                      alt="github"
+                    />{" "}
+                    <span className="ml-2"> Github</span>
+                  </div>
+                }
                 label=""
                 placeholder="@githubuser"
                 id="githubUser"
@@ -127,7 +160,18 @@ const General = () => {
                 className="w-[294px]"
               />
               <Input
-              prefix={<div className="flex items-center"> <Image src="/images/svgs/twitterIcon.svg" height={24} width={24} alt="github"/> <span className="ml-2"> Github</span></div>}
+                prefix={
+                  <div className="flex items-center">
+                    {" "}
+                    <Image
+                      src="/images/svgs/twitterIcon.svg"
+                      height={24}
+                      width={24}
+                      alt="github"
+                    />{" "}
+                    <span className="ml-2"> Github</span>
+                  </div>
+                }
                 label=""
                 placeholder="@githubuser"
                 id="githubUser"
@@ -136,10 +180,8 @@ const General = () => {
               />
             </div>
           </div>
-          <div>
-            <Button variant="primary">
-              Save Changes
-            </Button>
+          <div className="flex justify-end">
+            <Button variant="primary">Save Changes</Button>
           </div>
         </div>
       </div>
