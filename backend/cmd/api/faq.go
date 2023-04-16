@@ -3,7 +3,6 @@ package api
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db/models"
@@ -27,7 +26,6 @@ func (server *Server) createFAQ(ctx *gin.Context) {
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	if authPayload.UserRole != "SuperAdmin" {
-		fmt.Printf("%+v\n\n", authPayload)
 		err := errors.New("not authorised to create faq")
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
@@ -60,7 +58,7 @@ func (server *Server) getAllFAQs(ctx *gin.Context) {
 
 	resp, err := server.store.GetAllFAQs(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusOK, envelop{"data": resp})
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 

@@ -23,14 +23,28 @@ type changeUserPasswordRequest struct {
 	ConfirmPassword string `json:"confirm_new_password" binding:"required,min=8,eqfield=NewPassword"`
 }
 
-func (server *Server) changeUserPassword(ctx *gin.Context) {
-	var req changeUserPasswordRequest
+type changeUserPasswordRequestID struct {
+	ID string `uri:"id" binding:"required,min=1"`
+}
 
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+func (server *Server) changeUserPassword(ctx *gin.Context) {
+	var reqID changeUserPasswordRequestID
+	if err := ctx.ShouldBindUri(&reqID); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	if reqID.ID != authPayload.UserID {
+		err := errors.New("mismatched user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+	}
+
+	var req changeUserPasswordRequest
+	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+		return
+	}
 
 	user, err := server.store.GetUser(ctx, authPayload.UserID)
 	if err != nil {
@@ -133,7 +147,7 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, envelop{"data": "password resetted"})
+	ctx.JSON(http.StatusOK, envelop{"result": "reset password email sent"})
 
 	log.Info().
 		Str("user_id", user.ID.Hex()).
@@ -182,9 +196,11 @@ func (server *Server) login(ctx *gin.Context) {
 
 	// Return token.
 	ctx.JSON(http.StatusOK,
-		gin.H{
-			"token":   token,
-			"payload": payload,
+		envelop{
+			"data": gin.H{
+				"token":   token,
+				"payload": payload,
+			},
 		},
 	)
 // Log user login where 
