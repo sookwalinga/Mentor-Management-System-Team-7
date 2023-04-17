@@ -1,7 +1,6 @@
 import { Button, InputField, SelectField, TextareaField } from "@/components";
 import Input from "@/components/InputFields";
 import SettingsLayout from "@/components/Settings/SettingsLayout";
-import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import { avatarIcon } from "@/public";
 import Image from "next/image";
 import React, { ReactElement } from "react";
@@ -192,5 +191,5 @@ const General = () => {
 export default General;
 
 General.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <SettingsLayout>{page}</SettingsLayout>;
 };

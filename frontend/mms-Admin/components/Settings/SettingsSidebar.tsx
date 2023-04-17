@@ -20,7 +20,7 @@ export default SettingsSidebar;
 const routes = [
   {
     name: "General",
-    link: "/admin/settings/profile"
+    link: "/admin/settings/general"
   },
   {
     name: "Password",

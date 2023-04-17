@@ -21,5 +21,5 @@ export default function ErrorPage() {
 }
 
 ErrorPage.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout title="Error Page">{page}</DashboardLayout>;
+  return <DashboardLayout title="Not Found">{page}</DashboardLayout>;
 };
