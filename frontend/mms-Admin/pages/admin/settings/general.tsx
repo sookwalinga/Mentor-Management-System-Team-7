@@ -188,7 +188,7 @@ export default General;
 General.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout>
-      <SettingsLayout>{page}</SettingsLayout>
+      <SettingsLayout title="General">{page}</SettingsLayout>
     </DashboardLayout>
   );
 };

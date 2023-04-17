@@ -7,13 +7,10 @@ import {
   dashboardIcon,
   taskIcon,
   approvalIcon,
-  chatIcon,
   discussionIcon,
   mentorsIcon,
-  notificationIcon,
   messagesIcon,
   reportIcon,
-  avatarIcon,
   mentorsManagerIcon
 } from "@/public";
 import Image from "next/image";
@@ -101,7 +98,6 @@ const RenderSideBarLinks = () => {
             </div>
             <div className="text">
               <p
-                // className="text-base font-normal tracking-tighter"
                 className={`text-base tracking-tighter ${
                   router.asPath === link.link && "  text-mmsBlack2 font-bold"
                 }`}

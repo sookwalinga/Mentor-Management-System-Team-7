@@ -30,7 +30,7 @@ const Profile = () => {
           <Button
             variant="primary"
             className="text-base px-[40px] py-[10px]"
-            onClick={() => router.push("/admin/settings")}
+            onClick={() => router.push("/admin/settings/general")}
           >
             Edit Profile
           </Button>

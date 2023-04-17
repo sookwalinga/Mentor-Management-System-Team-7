@@ -2,16 +2,16 @@ import SettingsLayout from "@/components/Settings/SettingsLayout";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import React, { ReactElement } from "react";
 
-const Archive = () => {
-  return <div>Archive</div>;
+const FAQ = () => {
+  return <div>FAQ</div>;
 };
 
-export default Archive;
+export default FAQ;
 
-Archive.getLayout = function getLayout(page: ReactElement) {
+FAQ.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout>
-      <SettingsLayout title="Archive">{page}</SettingsLayout>
+      <SettingsLayout title="FAQ">{page}</SettingsLayout>
     </DashboardLayout>
   );
 };
