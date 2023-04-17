@@ -35,4 +35,13 @@ type Store interface {
 
 	// UpdateUserAction updates and returns a record from the user_actions collection
 	UpdateUserAction(ctx context.Context, id string, updateData map[string]interface{}) (*models.UserAction, error)
+
+	// CreateFAQ inserts a new record into the faq collection.
+	CreateFAQ(ctx context.Context, faq *models.Faq) (*models.Faq, error)
+
+	// GetFAQ return a record by ID from the faq collection.
+	GetFAQ(ctx context.Context, id string) (*models.Faq, error)
+
+	// GetAllFAQs returns all records in faq collection.
+	GetAllFAQs(ctx context.Context) ([]*models.Faq, error)
 }

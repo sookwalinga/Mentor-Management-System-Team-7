@@ -5,12 +5,31 @@ coordination of mentors needed to execute projects, ranging from recruitment to 
 
 \*[Contributor's wiki](https://github.com/ALCOpenSource/Mentor-Management-System-Team-7/wiki)
 
-## Techonologies
+## Requirements
+To build and run this project, you will need:
+-   Go v1.16 or later
+-   [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
+-   [make(1)](https://man7.org/linux/man-pages/man1/make.1.html) utility
+-   [Redis](https://redis.io/)
+-   Mongo Database
 
-*   Frontend -
-*   Backend -
-*   Database -
-*   Deployment env -
+## Deployment
+The makefile included in this project provides several helpful commands to simplify the deployment and testing process. Set the [DB_SOURCE]("./app.env") environment variable to a valid Mongo connection string. 
+
+#### Running the server
+
+```bash
+make redis
+make server
+```
+will run a Redis container with the name "redis", mapping port 6379, and running in the background. Then compile and run the Go program contained in the file main.go.
+
+#### Test
+
+```bash
+make test
+```
+will run all tests in the current directory and its subdirectories, display verbose output, and generate a coverage report.
 
 ## How to contributing to this project:
 
@@ -25,67 +44,6 @@ To get it up and running on your local machine, follow the steps below:
 *   Create a pull request against develop branch
 *   Reference the issue you worked on in your PR
 *   Open a pull request against the develop branch and request a review from your
-
-##### Frontend
-
-*   Navigate to the project directory with the command `cd conversational-app-team3`
-*   Navigate to the frontend directory with the command `cd frontend`
-*   Install all the dependencies with the command `npm install`
-*   Start the app with the command `npm run dev`
-*   Navigate to the app on your browser with the url `http://localhost:****` where \*\*\*\* is the port number displayed on your terminal.
-
-##### Backend
-
-*   Backend -
-
-##### Design
-
-*   The design can be find [here](https://www.figma.com/file/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?t=oxc4As0deSW7RNa8-0)
-*   Find the Prototype [here](https://www.figma.com/proto/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?page-id=6782%3A4428\&node-id=6784%3A6712\&viewport=565%2C382%2C0.02\&scaling=min-zoom\&starting-point-node-id=6784%3A6712)
-*   Work on your Team assigned task eg. Team 1, Team 2 etc.
-*   NOTE: Stickly adhere to the style guide on the design, buttons, texts etc.
-
-##### Creating issue
-
-*   Raise any identified issue with your mentor.
-
-##### Local Database Setup
-
-1.  Install and create a MySQL database (Can be change)
-2.  Create a .env file in the root directory
-3.  Set the environment variables with your local database credentials (see .env.example for reference)
-
-##### Installation
-
-```bash
-$ yarn install
-```
-
-##### Running the app
-
-```bash
-# development
-$ yarn start
-
-# watch mode
-$ yarn dev
-
-# production mode
-$ yarn start:prod
-```
-
-##### Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
 
 ##### Contributors
 

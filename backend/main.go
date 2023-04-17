@@ -14,7 +14,9 @@ package main
 
 import (
 	"context"
+	"embed"
 	"fmt"
+	"io/fs"
 	"os"
 
 	"time"
@@ -33,6 +35,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
+
+//go:embed docs
+var staticFiles embed.FS
 
 func main() {
 	config, err := utils.LoadConfig(".")
@@ -62,7 +67,13 @@ func main() {
 }
 
 func runGinServer(config utils.Config, store db.Store, taskDistributor worker.TaskDistributor) {
-	server, err := api.NewServer(config, store, taskDistributor)
+
+	fsys, err := fs.Sub(staticFiles, "docs/swagger-ui")
+	if err != nil {
+		log.Fatal().Err(err).Msg("can get swagger-ui static files")
+	}
+
+	server, err := api.NewServer(config, store, taskDistributor, fsys)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
 	}

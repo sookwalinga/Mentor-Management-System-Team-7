@@ -1,0 +1,243 @@
+swagger: "2.0"
+info:
+  title: "MMS-Team-7"
+  description: "
+  Mentors Management system is a people management app that enables proper. 
+  coordination of mentors needed to execute projects, ranging from recruitment to 
+  off-boarding. Ensue to go through the app doc below to read more and follow all the instructions."
+  version: "1.0.0"
+host: "https://6142-197-210-79-140.ngrok-free.app"
+basePath: "/api/v1"
+schemes:
+  - "http"
+  - "https"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /users/:id/change_password:
+    patch:
+      summary: "Changer user's password"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the user"
+          required: true
+          type: "string"
+        - name: "new password"
+          in: "body"
+          description: "Current password and new password of the user to update"
+          required: true
+          schema:
+            $ref: "#/definitions/ChangePasswordRequest"
+      responses:
+        200: 
+          description: "OK"
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+  /forgot_password:
+    post:
+      summary: "Request for password reset"
+      parameters:
+        - name: "user's email"
+          in: "body"
+          description: "User's email to send reset password email/token"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+                format: "email"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /auth/login:
+    post:
+      summary: "Login a user"
+      parameters:
+        - name: "user credentials"
+          in: "body"
+          description: "Email address and password of the user to authenticate"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginRequest"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /faqs:
+    post:
+      summary: "Create FAQ"
+      parameters:
+        - name: "FAQ details"
+          in: "body"
+          description: "Details of FAQ to create"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateFAQRequest"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/CreateFAQResponse"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+    get:
+      summary: "Get all FAQs"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/GetFAQsResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+definitions:
+  ChangePasswordRequest:
+    type: object
+    properties:
+      current_password:
+        type: string
+      new_password:
+        type: string
+      confirm_password:
+        type: string
+  LoginRequest:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+  LoginResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          token:
+            type: string
+          payload:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              user_id:
+                type: string
+              user_role:
+                type: string
+              issued_at:
+                type: string
+                format: date-time
+              expired_at:
+                type: string
+                format: date-time
+  FAQ:
+    type: object
+    properties:
+      question:
+        type: string
+      answer:
+        type: string
+      category:
+        type: string
+  CreateFAQRequest:
+    $ref: "#/definitions/FAQ"
+
+  CreateFAQResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        $ref: "#/definitions/FAQ"
+
+  GetFAQsResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/FAQ"
+
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: "string"

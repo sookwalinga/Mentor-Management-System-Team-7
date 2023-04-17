@@ -42,13 +42,8 @@ func (mc MongoClient) UpdateUserAction(ctx context.Context, id string, updateDat
 	}
 	filter := bson.M{"_id": objID}
 
-	updateDoc, err := bson.Marshal(updateData)
-	if err != nil {
-		return nil, err
-	}
-
 	options := options.FindOneAndUpdate().SetReturnDocument(options.After)
-	update := bson.M{"$set": updateDoc}
+	update := bson.M{"$set": updateData}
 
 	updateduserAction := &models.UserAction{}
 	err = mc.client.Database(DBName).Collection(UserActionsCollection).FindOneAndUpdate(ctx, filter, update, options).Decode(updateduserAction)
