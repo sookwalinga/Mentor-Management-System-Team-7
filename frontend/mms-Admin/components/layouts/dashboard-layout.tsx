@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Header, Sidebar } from "..";
 
@@ -13,7 +14,7 @@ export const DashboardLayout = ({ children, title }: dashboardLayout) => {
       <Sidebar />
 
       {/* Content */}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full bg-white">
         {/* Header */}
         <Header />
         {/* Main content */}
@@ -31,7 +32,6 @@ export const DashboardLayout = ({ children, title }: dashboardLayout) => {
               )}
             </div>
           )}
-
           {children}
         </main>
       </div>
