@@ -7,13 +7,10 @@ import {
   dashboardIcon,
   taskIcon,
   approvalIcon,
-  chatIcon,
   discussionIcon,
   mentorsIcon,
-  notificationIcon,
   messagesIcon,
   reportIcon,
-  avatarIcon,
   mentorsManagerIcon
 } from "@/public";
 import Image from "next/image";
@@ -26,57 +23,57 @@ let links = [
     icon: profileIcon,
     link: "/admin/profile"
   },
-  // {
-  //   name: "Dashboard",
-  //   icon: dashboardIcon,
-  //   link: "/admin/dashboard"
-  // },
-  // {
-  //   name: " Programs",
-  //   icon: programsIcon,
-  //   link: "/admin/programs"
-  // },
-  // {
-  //   name: "Tasks",
-  //   icon: taskIcon,
-  //   link: "/admin/tasks"
-  // },
-  // {
-  //   name: "Reports",
-  //   icon: reportIcon,
-  //   link: "/admin/reports"
-  // },
-  // {
-  //   name: "Mentors",
-  //   icon: mentorsIcon,
-  //   link: "/admin/mentors"
-  // },
-  // {
-  //   name: "Mentors Manager",
-  //   icon: mentorsManagerIcon,
-  //   link: "/admin/mentors-manager"
-  // },
-  // {
-  //   name: "Messages",
-  //   icon: messagesIcon,
-  //   link: "/admin/messages"
-  // },
-  // {
-  //   name: "Discussions",
-  //   icon: discussionIcon,
-  //   link: "/admin/discussions"
-  // },
-  // {
-  //   name: "Approval",
-  //   icon: approvalIcon,
+  {
+    name: "Dashboard",
+    icon: dashboardIcon,
+    link: "/admin/dashboard"
+  },
+  {
+    name: " Programs",
+    icon: programsIcon,
+    link: "/admin/programs"
+  },
+  {
+    name: "Tasks",
+    icon: taskIcon,
+    link: "/admin/tasks"
+  },
+  {
+    name: "Reports",
+    icon: reportIcon,
+    link: "/admin/reports"
+  },
+  {
+    name: "Mentors",
+    icon: mentorsIcon,
+    link: "/admin/mentors"
+  },
+  {
+    name: "Mentors Manager",
+    icon: mentorsManagerIcon,
+    link: "/admin/mentors-manager"
+  },
+  {
+    name: "Approval Requests",
+    icon: approvalIcon,
 
-  //   link: "/admin/approval"
-  // },
-  // {
-  //   name: "Certificates",
-  //   icon: certificateIcon,
-  //   link: "/admin/certificates"
-  // },
+    link: "/admin/approval"
+  },
+  {
+    name: "Certificates",
+    icon: certificateIcon,
+    link: "/admin/certificates"
+  },
+  {
+    name: "Messages",
+    icon: messagesIcon,
+    link: "/admin/messages"
+  },
+  {
+    name: "Discussion Forum",
+    icon: discussionIcon,
+    link: "/admin/discussions"
+  },
   {
     name: "Settings",
     icon: settingsIcon,
@@ -101,7 +98,6 @@ const RenderSideBarLinks = () => {
             </div>
             <div className="text">
               <p
-                // className="text-base font-normal tracking-tighter"
                 className={`text-base tracking-tighter ${
                   router.asPath === link.link && "  text-mmsBlack2 font-bold"
                 }`}

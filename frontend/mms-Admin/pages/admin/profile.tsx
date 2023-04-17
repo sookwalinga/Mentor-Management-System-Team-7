@@ -1,10 +1,12 @@
 import { Button } from "@/components";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { Calendar, Globe, Mail, MapPin } from "react-feather";
 
 const Profile = () => {
+  const router = useRouter();
   return (
     <div>
       <div className="mb-[60px] flex items-center justify-between">
@@ -25,7 +27,11 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <Button variant="primary" className="text-base px-[40px] py-[10px]">
+          <Button
+            variant="primary"
+            className="text-base px-[40px] py-[10px]"
+            onClick={() => router.push("/admin/settings/general")}
+          >
             Edit Profile
           </Button>
         </div>
@@ -66,28 +72,56 @@ const Profile = () => {
           </div>
         </div>
         <div className="mt-[50px]">
-        <h2 className="text-mmsBlack2 font-semibold mb-3 text-2xl">Social</h2>
-        <div className="flex items-center">
+          <h2 className="text-mmsBlack2 font-semibold mb-3 text-2xl">Social</h2>
+          <div className="flex items-center">
             <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px]">
-              <Image src="/images/svgs/githubIcon.svg" width={24} height={23} alt="github"/>
-              <span className="font-semibold text-xl text-mmsBlack3 ml-3">@peculiah.umeh</span>
+              <Image
+                src="/images/svgs/githubIcon.svg"
+                width={24}
+                height={23}
+                alt="github"
+              />
+              <span className="font-semibold text-xl text-mmsBlack3 ml-3">
+                @peculiah.umeh
+              </span>
             </div>
             <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px] ml-[15%]">
-              <Image src="/images/svgs/linkedinIcon.svg" width={24} height={23} alt="github"/>
-              <span className="font-semibold text-xl text-mmsBlack3 ml-3">@peculiah.umeh</span>
+              <Image
+                src="/images/svgs/linkedinIcon.svg"
+                width={24}
+                height={23}
+                alt="github"
+              />
+              <span className="font-semibold text-xl text-mmsBlack3 ml-3">
+                @peculiah.umeh
+              </span>
             </div>
           </div>
         </div>
         <div className="flex items-center mt-[33px]">
-            <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px]">
-              <Image src="/images/svgs/twitterIcon.svg" width={24} height={23} alt="github"/>
-              <span className="font-semibold text-xl text-mmsBlack3 ml-3">@peculiah.umeh</span>
-            </div>
-            <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px] ml-[15%]">
-              <Image src="/images/svgs/instagramIcon.svg" width={24} height={23} alt="github"/>
-              <span className="font-semibold text-xl text-mmsBlack3 ml-3">@peculiah.umeh</span>
-            </div>
+          <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px]">
+            <Image
+              src="/images/svgs/twitterIcon.svg"
+              width={24}
+              height={23}
+              alt="github"
+            />
+            <span className="font-semibold text-xl text-mmsBlack3 ml-3">
+              @peculiah.umeh
+            </span>
           </div>
+          <div className="flex items-center bg-mmsPry10 py-[5px] px-[11px] ml-[15%]">
+            <Image
+              src="/images/svgs/instagramIcon.svg"
+              width={24}
+              height={23}
+              alt="github"
+            />
+            <span className="font-semibold text-xl text-mmsBlack3 ml-3">
+              @peculiah.umeh
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -96,5 +130,5 @@ const Profile = () => {
 export default Profile;
 
 Profile.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <DashboardLayout title="Profile">{page}</DashboardLayout>;
 };

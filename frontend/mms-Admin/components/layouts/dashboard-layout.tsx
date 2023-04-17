@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import { Header, Sidebar } from "..";
+import Head from "next/head";
 
 interface dashboardLayout {
   children?: React.ReactNode;
@@ -10,9 +11,11 @@ interface dashboardLayout {
 export const DashboardLayout = ({ children, title }: dashboardLayout) => {
   return (
     <div className="flex h-screen">
+      <Head>
+        <title>{title}</title>
+      </Head>
       {/* Sidebar */}
       <Sidebar />
-
       {/* Content */}
       <div className="flex flex-col w-full bg-white">
         {/* Header */}

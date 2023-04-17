@@ -392,8 +392,8 @@ const ProgressBar = ({ progress }: any) => {
       <div
         className="absolute top-0 left-0 h-full bg-mmsPry3 rounded"
         style={{ width: `${progress}%` }}
-      ></div>
-      <div className="absolute top-0 left-0 h-full w-full flex justify-center items-center"></div>
+      />
+      <div className="absolute top-0 left-0 h-full w-full flex justify-center items-center" />
     </div>
   );
 };

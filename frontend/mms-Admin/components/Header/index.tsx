@@ -2,13 +2,16 @@ import React from "react";
 import Logo from "@/public/images/Logo-Onley-3-01 1.png";
 import { searchIcon, notificationIcon, chatIcon, avatarIcon } from "@/public";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Header = () => {
   return (
     <nav className="bg-mmsPry3 h-[102px] w-full flex lg:px-[58px] p-3 py-[30px] justify-between items-center  fixed top-0 left-0 right-0 z-10">
       <div className="logo flex items-center space-x-3">
         <div className="logo__container">
-          <Image src={Logo} alt="logo" className="w-[69px]" />
+          <Link href="/" passHref>
+            <Image src={Logo} alt="logo" className="w-[69px]" />
+          </Link>
         </div>
         <h4 className="font-semibold text-base text-green11">
           Mentor’s Managers System
