@@ -1,10 +1,12 @@
 import { Button } from "@/components";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { Calendar, Globe, Mail, MapPin } from "react-feather";
 
 const Profile = () => {
+  const router = useRouter();
   return (
     <div>
       <div className="mb-[60px] flex items-center justify-between">
@@ -25,7 +27,11 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <Button variant="primary" className="text-base px-[40px] py-[10px]">
+          <Button
+            variant="primary"
+            className="text-base px-[40px] py-[10px]"
+            onClick={() => router.push("/admin/settings")}
+          >
             Edit Profile
           </Button>
         </div>
