@@ -161,7 +161,6 @@ const General = () => {
               <Input
                 prefix={
                   <div className="flex items-center">
-                    {" "}
                     <Image
                       src="/images/svgs/twitterIcon.svg"
                       height={24}
@@ -180,7 +179,9 @@ const General = () => {
             </div>
           </div>
           <div className="flex justify-end mt-5">
-            <Button variant="primary" className="text-base px-4 py-2">Save Changes</Button>
+            <Button variant="primary" className="text-base px-4 py-2">
+              Save Changes
+            </Button>
           </div>
         </div>
       </div>
