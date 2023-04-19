@@ -21,6 +21,10 @@ type Config struct {
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
+	GoogleClientID       string        `mapstructure:"GOOGLE_CLIENT_ID"`
+	GoogleClientSecret   string        `mapstructure:"GOOGLE_CLIENT_SECRET"`
+	GoogleRedirectURL    string        `mapstructure:"GOOGLE_REDIRECT_URL"`
+	GoogleRandomString   string        `mapstructure:"GOOGLE_RANDOM_STRING"`
 }
 
 // LoadConfig parses configuration file or environment variables

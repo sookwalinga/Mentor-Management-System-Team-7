@@ -12,6 +12,8 @@ import (
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/token"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/utils"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/worker"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,14 +25,15 @@ type Server struct {
 	router          *gin.Engine
 	tokenMaker      token.Maker
 	taskDistributor worker.TaskDistributor
-	swaggerFiles fs.FS
+	swaggerFiles    fs.FS
+	googleConfig    *oauth2.Config
 }
 
 // NewServer create a new HTTP server and setup routing.
 func NewServer(
-	config utils.Config, 
-	store db.Store, 
-	taskDistributor worker.TaskDistributor, 
+	config utils.Config,
+	store db.Store,
+	taskDistributor worker.TaskDistributor,
 	swaggerFiles fs.FS,
 ) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
@@ -38,12 +41,24 @@ func NewServer(
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
 	}
 
+	googleConfig := &oauth2.Config{
+		Endpoint:     google.Endpoint,
+		RedirectURL:  config.GoogleRedirectURL,
+		ClientID:     config.GoogleClientID,
+		ClientSecret: config.GoogleClientSecret,
+		Scopes: []string{
+			"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/userinfo.profile",
+		},
+	}
+
 	server := &Server{
 		config:          config,
 		store:           store,
 		tokenMaker:      tokenMaker,
 		taskDistributor: taskDistributor,
-		swaggerFiles: swaggerFiles,
+		swaggerFiles:    swaggerFiles,
+		googleConfig:    googleConfig,
 	}
 
 	server.setupRouter()
@@ -56,6 +71,8 @@ func (s *Server) setupRouter() {
 	router.Use(loggerMiddleware())
 	router.POST("/api/v1/forgot_password", s.forgotPassword)
 	router.POST("/api/v1/auth/login", s.login)
+	router.GET("/api/v1/auth/google/login", gin.WrapF(s.googleLogin))
+	router.GET("/api/v1/auth/google/callback", s.googleLoginCallback)
 
 	fsysHandler := http.FileServer(http.FS(s.swaggerFiles))
 	router.GET("/swagger/*any", gin.WrapH(http.StripPrefix("/swagger/", fsysHandler)))

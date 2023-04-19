@@ -82,9 +82,12 @@ func loggerMiddleware() gin.HandlerFunc {
 		duration := time.Since(startTime)
 
 		logger := log.Info()
-		if c.Writer.Status() < http.StatusOK || c.Writer.Status() >= http.StatusMultipleChoices {
+		if c.Writer.Status() < http.StatusOK || c.Writer.Status() >= http.StatusBadRequest {
 			body := buffer.Bytes()
 			logger = log.Error().Bytes("body", body)
+		} else if c.Writer.Status() >= http.StatusMultipleChoices && c.Writer.Status() < http.StatusBadRequest {
+			body := buffer.Bytes()
+			logger = log.Warn().Bytes("body", body)
 		}
 
 		logger.Str("protocol", "HTTP").
