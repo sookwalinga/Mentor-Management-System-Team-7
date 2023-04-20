@@ -20,6 +20,7 @@ type Store interface {
 
 	// GetUserByEmail retrieves a user document from the collection by email.
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
+	
 	// GetUserBy ID retrieves a user document from the collection by ID.
 	GetUserByID(ctx context.Context, id string) (*models.User, error)
 

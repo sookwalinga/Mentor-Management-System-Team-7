@@ -2,7 +2,10 @@
 package api
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -15,6 +18,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
+	"golang.org/x/oauth2"
 )
 
 type changeUserPasswordRequest struct {
@@ -203,6 +207,7 @@ func (server *Server) login(ctx *gin.Context) {
 			},
 		},
 	)
+	// Log user login where
 
 	log.Info().
 		Str("user_id", user.ID.Hex()).
@@ -211,6 +216,98 @@ func (server *Server) login(ctx *gin.Context) {
 		Str("request_method", ctx.Request.Method).
 		Str("request_path", ctx.Request.URL.Path).
 		Msg("user logged in")
+}
+
+// Define the Google Sign-in route handler
+func (server *Server) googleLogin(w http.ResponseWriter, r *http.Request) {
+	url := server.googleConfig.AuthCodeURL(server.config.GoogleRandomString, oauth2.AccessTypeOffline)
+	http.Redirect(w, r, url, http.StatusFound)
+}
+
+type profile struct {
+	Email         string `json:"email"`
+	Name          string `json:"name"`
+	FirstName     string `json:"given_name"`
+	LastName      string `json:"family_name"`
+	EmailVerified bool   `json:"email_verified"`
+}
+
+// Define the Google Sign-in callback route handler
+func (server *Server) googleLoginCallback(ctx *gin.Context) {
+	// Check state is valid.
+	state := ctx.Query("state")
+	if state != server.config.GoogleRandomString {
+		werr := fmt.Errorf("invalid state value")
+		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		return
+	}
+
+	// Exchange the authorization code for an access token and ID token
+	code := ctx.Query("code")
+	token, err := server.googleConfig.Exchange(ctx, code)
+	if err != nil {
+		werr := fmt.Errorf("failed to exchange code: %w", err)
+		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		return
+	}
+
+	// Get the user's Google profile using the access token
+	client := server.googleConfig.Client(ctx, token)
+	resp, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
+	if err != nil {
+		werr := fmt.Errorf("failed to get user info: %w", err)
+		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		return
+	}
+	defer resp.Body.Close()
+
+	// Parse the user's profile JSON
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		werr := fmt.Errorf("failed to read response body: %w", err)
+		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		return
+	}
+	userProfile := &profile{}
+	if err := json.Unmarshal(body, userProfile); err != nil {
+		werr := fmt.Errorf("failed to parse user profle: %w", err)
+		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		return
+	}
+
+	// Retrieve user by email
+	user, err := server.store.GetUserByEmail(ctx, userProfile.Email)
+	if err != nil {
+		if errors.Is(err, db.ErrRecordNotFound) {
+			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound))
+			return
+		}
+
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	pasetoToken, payload, err := server.tokenMaker.CreateToken(user.ID.Hex(), user.Role, 24*time.Hour)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, envelop{
+		"data": gin.H{
+			"user":         user,
+			"payload":      payload,
+			"access_token": pasetoToken,
+		},
+	})
+
+	log.Info().
+		Str("user_id", user.ID.Hex()).
+		Str("ip_address", ctx.ClientIP()).
+		Str("user_agent", ctx.Request.UserAgent()).
+		Str("request_method", ctx.Request.Method).
+		Str("request_path", ctx.Request.URL.Path).
+		Msg("logged in user using google sigin-in")
 }
 
 func (server *Server) updateUser(ctx *gin.Context) {
