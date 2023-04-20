@@ -64,6 +64,7 @@ func (s *Server) setupRouter() {
 	authRoutes.PATCH("/api/v1/users/:id/change_password", s.changeUserPassword)
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
 	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
+	authRoutes.POST("/api/v1/user/:id", s.updateUser)
 
 	s.router = router
 }
