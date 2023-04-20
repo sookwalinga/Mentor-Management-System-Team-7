@@ -208,6 +208,7 @@ func (server *Server) login(ctx *gin.Context) {
 		},
 	)
 	// Log user login where
+
 	log.Info().
 		Str("user_id", user.ID.Hex()).
 		Str("ip_address", ctx.ClientIP()).
@@ -307,4 +308,44 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 		Str("request_method", ctx.Request.Method).
 		Str("request_path", ctx.Request.URL.Path).
 		Msg("logged in user using google sigin-in")
+}
+
+func (server *Server) updateUser(ctx *gin.Context) {
+	var req models.User
+	id := ctx.Param("id")
+	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+		return
+	}
+	user, err := server.store.GetUserByID(ctx, id)
+
+	if user == nil {
+		ctx.JSON(http.StatusNotFound,
+			envelop{"error": "user not found"})
+
+		return
+	}
+
+	updateUserParams := map[string]interface{}{
+		"full_name": req.FullName,
+		"about":     req.About,
+		"contact":   req.Contact,
+		"socials":   req.Socials,
+	}
+
+	_, err = server.store.UpdateUser(ctx,
+		user.ID.Hex(), updateUserParams)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, envelop{"result": "user updated successfully",
+		"data": gin.H{
+			"full_name": req.FullName,
+			"about":     req.About,
+			"contact":   req.Contact,
+			"socials":   req.Socials,
+		},
+	})
+
 }

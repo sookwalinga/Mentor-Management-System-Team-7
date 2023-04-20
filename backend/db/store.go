@@ -20,6 +20,9 @@ type Store interface {
 
 	// GetUserByEmail retrieves a user document from the collection by email.
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
+	
+	// GetUserBy ID retrieves a user document from the collection by ID.
+	GetUserByID(ctx context.Context, id string) (*models.User, error)
 
 	// UpdateUser updates a user document in the collection by ID.
 	UpdateUser(ctx context.Context, userID string, updateData map[string]interface{}) (*models.User, error)
