@@ -6,7 +6,7 @@ info:
   coordination of mentors needed to execute projects, ranging from recruitment to 
   off-boarding. Ensue to go through the app doc below to read more and follow all the instructions."
   version: "1.0.0"
-host: "https://6142-197-210-79-140.ngrok-free.app"
+host: "https://mms-team-7.onrender.com"
 basePath: "/api/v1"
 schemes:
   - "http"
