@@ -221,7 +221,7 @@ func (server *Server) login(ctx *gin.Context) {
 // Define the Google Sign-in route handler
 func (server *Server) googleLogin(w http.ResponseWriter, r *http.Request) {
 	url := server.googleConfig.AuthCodeURL(server.config.GoogleRandomString, oauth2.AccessTypeOffline)
-	http.Redirect(w, r, url, http.StatusFound)
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 type profile struct {

@@ -9,7 +9,6 @@ info:
 host: "https://mms-team-7.onrender.com"
 basePath: "/api/v1"
 schemes:
-  - "http"
   - "https"
 consumes:
   - "application/json"
@@ -62,6 +61,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       security:
         - Bearer: []
+
   /forgot_password:
     post:
       summary: "Request for password reset"
@@ -96,6 +96,51 @@ paths:
           description: "Internal server error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /users/:id:
+    post:
+      summary: "Update user's profile info"
+      parameters:
+        - name: "User's info"
+          in: "body"
+          description: "Update user's profile data"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+              data:
+                type: object
+                properties:
+                  full_name:
+                    type: string
+                  about:
+                    type: string
+                  contact:
+                    $ref: "#/definitions/Contact"
+                  socials:
+                    $ref: "#/definitions/Socials"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+
   /auth/login:
     post:
       summary: "Login a user"
@@ -127,6 +172,55 @@ paths:
           description: "Internal server error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /auth/google/login:
+    get:
+      summary: "Initiate Google Sign-In"
+      description: "Initiate Google Sign-In flow by redirecting the user to Google authorization endpoint"
+      responses:
+        '307':
+          description: "Temporary Redirect"
+          headers:
+            Location:
+              description: "URL to redirect the user to Google authorization endpoint"
+              schema:
+                type: "string"
+                example: "https://accounts.google.com/o/oauth2/auth"
+
+  /auth/google/callback:
+    get:
+      summary: "Google sign-in callback"
+      parameters:
+        - name: code
+          in: query
+          required: true
+          description: "The authorization code returned by Google after the user approves access"
+        - name: state
+          in: query
+          required: true
+          description: "A value passed by the client which is returned unchanged in the response"
+      responses:
+        '200':
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        '400':
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '500':
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /faqs:
     post:
       summary: "Create FAQ"
@@ -167,6 +261,7 @@ paths:
           description: "Internal server error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+
 definitions:
   ChangePasswordRequest:
     type: object
@@ -177,6 +272,7 @@ definitions:
         type: string
       confirm_password:
         type: string
+
   LoginRequest:
     type: object
     properties:
@@ -185,6 +281,7 @@ definitions:
         format: email
       password:
         type: string
+
   LoginResponse:
     type: object
     properties:
@@ -209,6 +306,9 @@ definitions:
               expired_at:
                 type: string
                 format: date-time
+          user:
+            $ref: "#/definitions/User"
+              
   FAQ:
     type: object
     properties:
@@ -218,6 +318,7 @@ definitions:
         type: string
       category:
         type: string
+
   CreateFAQRequest:
     $ref: "#/definitions/FAQ"
 
@@ -235,6 +336,75 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/FAQ"
+  
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      full_name:
+        type: string
+      role:
+        type: string
+      about:
+        type: string
+      contact:
+        $ref: "#/definitions/Contact"
+      created_at:
+        type: string
+        format: date-time
+      profile_image_url:
+        type: string
+      password_changed_at:
+        type: string
+        format: date-time
+      socials:
+        $ref: "#/definitions/Socials"
+      is_email_verified:
+        type: boolean
+
+  Contact:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      website:
+        type: string
+      location:
+        type: string
+
+  Socials:
+    type: object
+    properties:
+      github_url:
+        type: object
+        properties:
+          value:
+            type: string
+          is_visible:
+            type: string
+      linkedin_url:
+        type: object
+        properties:
+          value:
+            type: string
+          is_visible:
+            type: string
+      twitter_url:
+        type: object
+        properties:
+          value:
+            type: string
+          is_visible:
+            type: string
+      instagram_url:
+        type: object
+        properties:
+          value:
+            type: string
+          is_visible:
+            type: string
 
   ErrorResponse:
     type: object
