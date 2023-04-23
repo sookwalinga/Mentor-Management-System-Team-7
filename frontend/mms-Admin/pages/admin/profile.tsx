@@ -129,6 +129,8 @@ const Profile = () => {
 
 export default Profile;
 
+Profile.requireAuth = true;
+
 Profile.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout title="Profile">{page}</DashboardLayout>;
 };

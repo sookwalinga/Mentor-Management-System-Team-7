@@ -15,3 +15,5 @@ Archive.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+Archive.requireAuth = true;
