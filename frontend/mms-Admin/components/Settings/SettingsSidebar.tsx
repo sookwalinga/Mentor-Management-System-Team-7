@@ -5,7 +5,7 @@ import React from "react";
 const SettingsSidebar = () => {
   const router = useRouter();
   return (
-    <div className="flex flex-col bg-white w-[225px] h-[295px]">
+    <div className="flex flex-col bg-white lg:w-[225px] w-full h-[295px]">
       {routes.map((route, index) => (
         <Link key={index} href={route.link} passHref>
           <div

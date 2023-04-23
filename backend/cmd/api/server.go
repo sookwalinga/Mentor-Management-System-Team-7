@@ -75,13 +75,13 @@ func (s *Server) setupRouter() {
 	router.GET("/api/v1/auth/google/callback", s.googleLoginCallback)
 
 	fsysHandler := http.FileServer(http.FS(s.swaggerFiles))
-	router.GET("/swagger/*any", gin.WrapH(http.StripPrefix("/swagger/", fsysHandler)))
+	router.GET("/api/v1/swagger/*any", gin.WrapH(http.StripPrefix("/api/v1/swagger/", fsysHandler)))
 
 	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
 	authRoutes.PATCH("/api/v1/users/:id/change_password", s.changeUserPassword)
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
 	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
-	authRoutes.POST("/api/v1/user/:id", s.updateUser)
+	authRoutes.POST("/api/v1/users/:id", s.updateUser)
 
 	s.router = router
 }
