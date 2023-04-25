@@ -24,3 +24,6 @@ const SettingsLayout = ({ children, title }: settingsLayout) => {
 };
 
 export default SettingsLayout;
+
+
+SettingsLayout.requireAuth = true;
