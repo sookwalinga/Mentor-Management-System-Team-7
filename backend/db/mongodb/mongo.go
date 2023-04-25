@@ -22,6 +22,9 @@ const (
 
 	// FAQCollection defines FAQ collection name.
 	FAQCollection = "faq"
+
+	// DiscussionsCollection defines Discussion collection name.
+	DiscussionsCollection = "discussion_forum"
 )
 
 // MongoClient defines a Mongodb-based client.

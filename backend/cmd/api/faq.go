@@ -20,7 +20,7 @@ type createFAQRequest struct {
 
 func (server *Server) createFAQ(ctx *gin.Context) {
 	var req createFAQRequest
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
 
@@ -45,7 +45,7 @@ func (server *Server) createFAQ(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, envelop{"data": resp})
 	log.Info().
-		Str("user_id", authPayload.ID.String()).
+		Str("user_id", authPayload.UserID).
 		Str("ip_address", ctx.ClientIP()).
 		Str("user_agent", ctx.Request.UserAgent()).
 		Str("request_method", ctx.Request.Method).
@@ -65,7 +65,7 @@ func (server *Server) getAllFAQs(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, envelop{"data": resp})
 
 	log.Info().
-		Str("user_id", authPayload.ID.String()).
+		Str("user_id", authPayload.UserID).
 		Str("ip_address", ctx.ClientIP()).
 		Str("user_agent", ctx.Request.UserAgent()).
 		Str("request_method", ctx.Request.Method).
