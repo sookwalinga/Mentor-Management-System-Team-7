@@ -88,8 +88,27 @@ type UserAction struct {
 
 // Faq represents faq details
 type Faq struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Question string             `bson:"question" json:"question"`
-	Answer   string             `bson:"answer" json:"answer"`
-	Category string             `bson:"category" json:"category"`
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Question string             `bson:"question,omitempty" json:"question,omitempty"`
+	Answer   string             `bson:"answer,omitempty" json:"answer,omitempty"`
+	Category string             `bson:"category,omitempty" json:"category,omitempty"`
+}
+
+// Discussion represents the data model for a discussion forum
+type Discussion struct {
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Title     string             `bson:"title,omitempty" json:"title,omitempty"`
+	Content   string             `bson:"content,omitempty" json:"content,omitempty"`
+	CreatedAt time.Time          `bson:"created_at,omitempty" json:"created_at,omitempty"`
+	UpdatedAt time.Time          `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
+	OwnerID   primitive.ObjectID `bson:"owner_id,omitempty" json:"owner_id,omitempty"`
+	Comments  []Comment          `bson:"comments,omitempty" json:"comments,omitempty"`
+}
+
+// Comment represents the data model for a comment
+type Comment struct {
+	OwnerID   primitive.ObjectID `bson:"owner_id,omitempty" json:"owner_id,omitempty"`
+	FullName  string             `bson:"full_name,omitempty" json:"full_name,omitempty"`
+	Content   string             `bson:"content,omitempty" json:"content,omitempty"`
+	CreatedAt time.Time          `bson:"created_at,omitempty" json:"created_at,omitempty"`
 }
