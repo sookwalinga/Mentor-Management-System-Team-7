@@ -82,6 +82,10 @@ func (s *Server) setupRouter() {
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
 	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
 	authRoutes.POST("/api/v1/users/:id", s.updateUser)
+	authRoutes.POST("/api/v1/discussions", s.createDiscussion)
+	authRoutes.POST("/api/v1/discussions/:id/add_comment", s.addComment)
+	authRoutes.GET("/api/v1/discussions", s.listDiscussions)
+	authRoutes.PATCH("/api/v1/discussions/:id", s.updateDiscussion)
 
 	s.router = router
 }

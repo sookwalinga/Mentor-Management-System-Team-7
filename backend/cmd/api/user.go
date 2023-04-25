@@ -46,7 +46,7 @@ func (server *Server) changeUserPassword(ctx *gin.Context) {
 	}
 
 	var req changeUserPasswordRequest
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
 
@@ -101,7 +101,7 @@ type forgotPasswordRequest struct {
 func (server *Server) forgotPassword(ctx *gin.Context) {
 	var req forgotPasswordRequest
 
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
 
@@ -171,7 +171,7 @@ type userLogin struct {
 func (server *Server) login(ctx *gin.Context) {
 	var req userLogin
 	// Validate request.
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
 	// Get user by email.
@@ -313,7 +313,7 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 func (server *Server) updateUser(ctx *gin.Context) {
 	var req models.User
 	id := ctx.Param("id")
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
 		return
 	}
 	user, err := server.store.GetUserByID(ctx, id)

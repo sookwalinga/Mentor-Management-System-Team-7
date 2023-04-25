@@ -6,10 +6,11 @@ info:
   coordination of mentors needed to execute projects, ranging from recruitment to 
   off-boarding. Ensue to go through the app doc below to read more and follow all the instructions."
   version: "1.0.0"
-host: "https://mms-team-7.onrender.com"
+host: "mms-team-7.onrender.com"
 basePath: "/api/v1"
 schemes:
   - "https"
+  - "http"
 consumes:
   - "application/json"
 produces:
@@ -25,11 +26,11 @@ paths:
       summary: "Changer user's password"
       parameters:
         - name: "id"
-          in: "path"
+          in: path
           description: "ID of the user"
           required: true
-          type: "string"
-        - name: "new password"
+          type: string
+        - name: "passwords"
           in: "body"
           description: "Current password and new password of the user to update"
           required: true
@@ -44,7 +45,7 @@ paths:
               result:
                 type: string
         400:
-          description: "Bad request"
+          description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
         401:
@@ -52,11 +53,11 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
         404:
-          description: "Not found"
+          description: "Not Found"
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
       security:
@@ -66,16 +67,16 @@ paths:
     post:
       summary: "Request for password reset"
       parameters:
-        - name: "user's email"
+        - name: "email"
           in: "body"
           description: "User's email to send reset password email/token"
           required: true
           schema:
-            type: "object"
+            type: object
             properties:
               email:
-                type: "string"
-                format: "email"
+                type: string
+                format: email
       responses:
         200:
           description: "OK"
@@ -85,15 +86,15 @@ paths:
               result:
                 type: string
         400:
-          description: "Bad request"
+          description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
         404:
-          description: "Not found"
+          description: "Not Found"
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
 
@@ -101,6 +102,11 @@ paths:
     post:
       summary: "Update user's profile info"
       parameters:
+        - name: "id"
+          in: path
+          description: "ID of the user"
+          required: true
+          type: string
         - name: "User's info"
           in: "body"
           description: "Update user's profile data"
@@ -127,15 +133,15 @@ paths:
                   socials:
                     $ref: "#/definitions/Socials"
         400:
-          description: "Bad request"
+          description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
         404:
-          description: "Not found"
+          description: "Not Found"
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
       security:
@@ -145,7 +151,7 @@ paths:
     post:
       summary: "Login a user"
       parameters:
-        - name: "user credentials"
+        - name: "credentials"
           in: "body"
           description: "Email address and password of the user to authenticate"
           required: true
@@ -157,7 +163,7 @@ paths:
           schema:
             $ref: "#/definitions/LoginResponse"
         400:
-          description: "Bad request"
+          description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
         401:
@@ -165,11 +171,11 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
         404:
-          description: "Not found"
+          description: "Not Found"
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
 
@@ -178,7 +184,7 @@ paths:
       summary: "Initiate Google Sign-In"
       description: "Initiate Google Sign-In flow by redirecting the user to Google authorization endpoint"
       responses:
-        '307':
+        307:
           description: "Temporary Redirect"
           headers:
             Location:
@@ -200,23 +206,23 @@ paths:
           required: true
           description: "A value passed by the client which is returned unchanged in the response"
       responses:
-        '200':
-          description: "Success"
+        200:
+          description: "OK"
           schema:
             $ref: "#/definitions/LoginResponse"
-        '400':
+        400:
           description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
-        '401':
+        401:
           description: "Unauthorized"
           schema:
             $ref: "#/definitions/ErrorResponse"
-        '404':
+        404:
           description: "Not Found"
           schema:
             $ref: "#/definitions/ErrorResponse"
-        '500':
+        500:
           description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
@@ -225,7 +231,7 @@ paths:
     post:
       summary: "Create FAQ"
       parameters:
-        - name: "FAQ details"
+        - name: "FAQ"
           in: "body"
           description: "Details of FAQ to create"
           required: true
@@ -237,7 +243,7 @@ paths:
           schema:
             $ref: "#/definitions/CreateFAQResponse"
         400:
-          description: "Bad request"
+          description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
         401:
@@ -245,7 +251,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
       security:
@@ -258,9 +264,146 @@ paths:
           schema:
             $ref: "#/definitions/GetFAQsResponse"
         500:
-          description: "Internal server error"
+          description: "Internal Server Error"
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /discussions:
+    post:
+      summary: "Create a discussion forum"
+      parameters:
+        - name: "title and content"
+          in: body
+          description: "Title and content of the discussion"
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/Discussion"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+    get:
+      summary: "List all discussions for a user"
+      parameters:
+        - name: "page_id"
+          in: query
+          description: "What page to start from"
+          required: true
+          type: integer
+        - name: "page_size"
+          in: query
+          description: "What page size to return"
+          required: true
+          type: integer
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Discussion"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+
+  /discussions/:id:
+    patch:
+      summary: "Update a discussion"
+      parameters:
+        - name: "id"
+          in: path
+          description: "Discussion ID to update"
+          required: true
+          type: string
+        - name: "title and content"
+          in: body
+          description: "The discussion new title and content"
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Discussion"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+
+  /discussions/:id/add_comment:
+    post:
+      summary: "Add a comment on discussion"
+      parameters:
+        - name: "id"
+          in: path
+          description: "Discussion ID to add comment"
+          required: true
+          type: string
+        - name: "comment"
+          in: body
+          description: "Content of the comment and owner's full name "
+          required: true
+          schema:
+            type: object
+            properties:
+              first_name:
+                type: string
+              last_name:
+                type: string
+              content:
+                type: string
+      responses:
+        201:
+          description: "Created"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Comment"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
 
 definitions:
   ChangePasswordRequest:
@@ -405,6 +548,38 @@ definitions:
             type: string
           is_visible:
             type: string
+
+  Discussion:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      owner_id:
+        type: string
+      comments:
+        type: array
+        items:
+          $ref: "#/definitions/Comment"
+
+  Comment:
+    type: object
+    properties:
+      owner_id:
+        type: string
+      full_name:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+        format: date-time
 
   ErrorResponse:
     type: object
