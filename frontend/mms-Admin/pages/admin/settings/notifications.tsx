@@ -111,3 +111,5 @@ Notifications.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+Notifications.requireAuth = true;

@@ -76,3 +76,5 @@ Password.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+Password.requireAuth = true;
