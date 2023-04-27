@@ -73,8 +73,8 @@ func NewServer(
 
 func (s *Server) setupRouter() {
 	router := gin.Default()
-	router.Use(cors.Default())
-	router.Use(loggerMiddleware())
+	// router.Use(cors.Default())
+	router.Use(loggerMiddleware(), cors.Default())
 	router.POST("/api/v1/forgot_password", s.forgotPassword)
 	router.POST("/api/v1/auth/login", s.login)
 	router.GET("/api/v1/auth/google/login", gin.WrapF(s.googleLogin))
