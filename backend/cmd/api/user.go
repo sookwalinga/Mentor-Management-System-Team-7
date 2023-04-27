@@ -202,6 +202,7 @@ func (server *Server) login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,
 		envelop{
 			"data": gin.H{
+				"data":    user,
 				"token":   token,
 				"payload": payload,
 			},

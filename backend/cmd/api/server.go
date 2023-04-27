@@ -17,6 +17,7 @@ import (
 	"golang.org/x/oauth2/google"
 
 	"github.com/gin-gonic/gin"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 // A Server serves HTTP requests for the banking system
@@ -72,6 +73,7 @@ func NewServer(
 
 func (s *Server) setupRouter() {
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.Use(loggerMiddleware())
 	router.POST("/api/v1/forgot_password", s.forgotPassword)
 	router.POST("/api/v1/auth/login", s.login)
