@@ -347,5 +347,26 @@ func (server *Server) updateUser(ctx *gin.Context) {
 			"socials":   req.Socials,
 		},
 	})
+}
 
+func (server *Server) logout(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	expiredAt := authPayload.ExpiredAt
+	duration := time.Until(expiredAt)
+
+	err := server.cache.BlacklistSession(ctx, authPayload.ID.String(), duration)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, envelop{"result": "Logged out user successfully"})
+	log.Info().
+		Str("user_id", authPayload.UserID).
+		Str("ip_address", ctx.ClientIP()).
+		Str("user_agent", ctx.Request.UserAgent()).
+		Str("request_method", ctx.Request.Method).
+		Str("request_path", ctx.Request.URL.Path).
+		Msg("logged out user")
 }
