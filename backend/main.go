@@ -41,6 +41,7 @@ import (
 var staticFiles embed.FS
 
 func main() {
+
 	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not load config file")
