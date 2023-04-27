@@ -169,8 +169,8 @@ func (server *Server) updateDiscussion(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	discussion, err := server.store.UpdateDiscussion(ctx, reqID.ID, map[string]interface{}{
-		"title":   reqBody.Title,
-		"content": reqBody.Content,
+		"title":      reqBody.Title,
+		"content":    reqBody.Content,
 		"updated_at": time.Now(),
 	})
 	if err != nil {

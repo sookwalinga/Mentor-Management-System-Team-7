@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db"
+	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/cache"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/token"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/utils"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/worker"
@@ -27,6 +28,7 @@ type Server struct {
 	taskDistributor worker.TaskDistributor
 	swaggerFiles    fs.FS
 	googleConfig    *oauth2.Config
+	cache           cache.Cache
 }
 
 // NewServer create a new HTTP server and setup routing.
@@ -35,6 +37,7 @@ func NewServer(
 	store db.Store,
 	taskDistributor worker.TaskDistributor,
 	swaggerFiles fs.FS,
+	cache cache.Cache,
 ) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
@@ -59,6 +62,7 @@ func NewServer(
 		taskDistributor: taskDistributor,
 		swaggerFiles:    swaggerFiles,
 		googleConfig:    googleConfig,
+		cache:           cache,
 	}
 
 	server.setupRouter()
@@ -77,7 +81,7 @@ func (s *Server) setupRouter() {
 	fsysHandler := http.FileServer(http.FS(s.swaggerFiles))
 	router.GET("/api/v1/swagger/*any", gin.WrapH(http.StripPrefix("/api/v1/swagger/", fsysHandler)))
 
-	authRoutes := router.Group("/").Use(authMiddleware(s.tokenMaker))
+	authRoutes := router.Group("/").Use(s.authMiddleware(s.tokenMaker))
 	authRoutes.PATCH("/api/v1/users/:id/change_password", s.changeUserPassword)
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
 	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
@@ -86,6 +90,7 @@ func (s *Server) setupRouter() {
 	authRoutes.POST("/api/v1/discussions/:id/add_comment", s.addComment)
 	authRoutes.GET("/api/v1/discussions", s.listDiscussions)
 	authRoutes.PATCH("/api/v1/discussions/:id", s.updateDiscussion)
+	authRoutes.POST("/api/v1/auth/logout", s.logout)
 
 	s.router = router
 }

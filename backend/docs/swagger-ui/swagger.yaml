@@ -179,6 +179,28 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /auth/logout:
+    post:
+      summary: "Logout a user"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - Bearer: []
+
   /auth/google/login:
     get:
       summary: "Initiate Google Sign-In"
@@ -470,7 +492,15 @@ definitions:
     properties:
       data:
         type: object
-        $ref: "#/definitions/FAQ"
+        properties:
+          id:
+            type: string
+          question:
+            type: string
+          answer:
+            type: string
+          category:
+            type: string
 
   GetFAQsResponse:
     type: object
