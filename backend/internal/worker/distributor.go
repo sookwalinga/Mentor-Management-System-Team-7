@@ -11,12 +11,6 @@ import (
 // TaskDistributor defines the inteface required to
 // distribute asynchronous tasks.
 type TaskDistributor interface {
-	DistributeTaskSendVerifyEmail(
-		ctx context.Context,
-		paylocd *PayloadSendVerifyEmail,
-		opts ...asynq.Option,
-	) error
-
 	DistributeTaskSendResetPasswordEmail(
 		ctx context.Context,
 		payload *PayloadResetPasswordEmail,

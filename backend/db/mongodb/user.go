@@ -51,7 +51,6 @@ func (mc *MongoClient) GetUserByID(ctx context.Context, id string) (*models.User
 	return mc.getUser(ctx, filter)
 }
 
-
 func (mc *MongoClient) getUser(ctx context.Context, filter bson.M) (*models.User, error) {
 	var user models.User
 	err := mc.client.Database(DBName).Collection(UsersCollection).
@@ -101,6 +100,3 @@ func (mc *MongoClient) DeleteUser(ctx context.Context, id string) (*mongo.Delete
 	filter := bson.M{"_id": objID}
 	return mc.client.Database(DBName).Collection(UsersCollection).DeleteOne(ctx, filter)
 }
-
-
-

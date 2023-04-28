@@ -15,12 +15,15 @@ const SettingsLayout = ({ children, title }: settingsLayout) => {
       <h1 className="text-2xl font-semibold mb-[0.75rem] text-mmsBlack1">
         Settings
       </h1>
-      <div className="flex items-start">
+      <div className="flex lg:flex-row flex-col items-start">
         <SettingsSidebar />
-        <div className="mx-7 w-[840px]">{children}</div>
+        <div className="lg:mx-7 lg:w-[840px] w-full my-10 lg:m-0">{children}</div>
       </div>
     </div>
   );
 };
 
 export default SettingsLayout;
+
+
+SettingsLayout.requireAuth = true;

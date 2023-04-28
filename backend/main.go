@@ -27,6 +27,7 @@ import (
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/cmd/api"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db/mongodb"
+	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/cache"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/mail"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/utils"
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/internal/worker"
@@ -40,6 +41,7 @@ import (
 var staticFiles embed.FS
 
 func main() {
+
 	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not load config file")
@@ -55,25 +57,31 @@ func main() {
 	}
 	log.Info().Msg("database connection established")
 	defer closeDB(conn)
-
 	store := mongodb.NewMongoClient(conn)
 
-	redisOpt := asynq.RedisClientOpt{
+	cache, err := cache.NewRedisCache(config.RedisAddress)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot connect to redis cache")
+	}
+	log.Info().Msg("redis cache connection established")
+
+	asynqRedisOpt := asynq.RedisClientOpt{
 		Addr: config.RedisAddress,
 	}
-	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
-	go runTaskProcessor(config, redisOpt, store)
-	runGinServer(config, store, taskDistributor)
+	taskDistributor := worker.NewRedisTaskDistributor(asynqRedisOpt)
+
+	go runTaskProcessor(config, asynqRedisOpt, store)
+	runGinServer(config, store, taskDistributor, cache)
 }
 
-func runGinServer(config utils.Config, store db.Store, taskDistributor worker.TaskDistributor) {
+func runGinServer(config utils.Config, store db.Store, taskDistributor worker.TaskDistributor, cache cache.Cache) {
 
 	fsys, err := fs.Sub(staticFiles, "docs/swagger-ui")
 	if err != nil {
 		log.Fatal().Err(err).Msg("can get swagger-ui static files")
 	}
 
-	server, err := api.NewServer(config, store, taskDistributor, fsys)
+	server, err := api.NewServer(config, store, taskDistributor, fsys, cache)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
 	}

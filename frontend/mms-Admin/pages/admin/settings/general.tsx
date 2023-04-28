@@ -192,3 +192,5 @@ General.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+General.requireAuth = true;

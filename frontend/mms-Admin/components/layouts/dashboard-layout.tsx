@@ -2,6 +2,7 @@
 import React from "react";
 import { Header, Sidebar } from "..";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 interface dashboardLayout {
   children?: React.ReactNode;
@@ -9,6 +10,8 @@ interface dashboardLayout {
 }
 
 export const DashboardLayout = ({ children, title }: dashboardLayout) => {
+
+
   return (
     <div className="flex h-screen">
       <Head>
@@ -41,3 +44,5 @@ export const DashboardLayout = ({ children, title }: dashboardLayout) => {
     </div>
   );
 };
+
+

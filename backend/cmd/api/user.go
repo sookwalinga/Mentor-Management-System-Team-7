@@ -4,7 +4,6 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -33,20 +32,18 @@ type changeUserPasswordRequestID struct {
 
 func (server *Server) changeUserPassword(ctx *gin.Context) {
 	var reqID changeUserPasswordRequestID
-	if err := ctx.ShouldBindUri(&reqID); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindUri(&reqID), validator.New()); err != nil {
 		return
 	}
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
-
 	if reqID.ID != authPayload.UserID {
-		err := errors.New("mismatched user")
-		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		ctx.JSON(http.StatusUnauthorized, errorResponse("mismatched user"))
+		return
 	}
 
 	var req changeUserPasswordRequest
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 
@@ -54,22 +51,22 @@ func (server *Server) changeUserPassword(ctx *gin.Context) {
 	if err != nil {
 		switch {
 		case errors.Is(err, db.ErrRecordNotFound):
-			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound.Error()))
 		default:
-			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			ctx.JSON(http.StatusInternalServerError, errorResponse("failed to fetch user profile"))
 		}
 		return
 	}
 
 	err = utils.CheckPassword(req.CurrentPassword, user.HashedPassword)
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		ctx.JSON(http.StatusUnauthorized, errorResponse("invalid login credentials"))
 		return
 	}
 
 	hashedPassword, err := utils.HashedPassword(req.NewPassword)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to hash password"))
 		return
 	}
 
@@ -80,7 +77,7 @@ func (server *Server) changeUserPassword(ctx *gin.Context) {
 
 	_, err = server.store.UpdateUser(ctx, authPayload.UserID, updateUserParams)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to update user's password"))
 		return
 	}
 
@@ -100,8 +97,7 @@ type forgotPasswordRequest struct {
 
 func (server *Server) forgotPassword(ctx *gin.Context) {
 	var req forgotPasswordRequest
-
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 
@@ -109,9 +105,9 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 	if err != nil {
 		switch {
 		case errors.Is(err, db.ErrRecordNotFound):
-			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound.Error()))
 		default:
-			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			ctx.JSON(http.StatusInternalServerError, errorResponse("failed to fetch user profile"))
 		}
 		return
 	}
@@ -126,7 +122,7 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 		ExpiredAt:  now.Add(15 * time.Minute),
 	})
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to create user action"))
 		return
 	}
 
@@ -142,12 +138,7 @@ func (server *Server) forgotPassword(ctx *gin.Context) {
 	}
 	err = server.taskDistributor.DistributeTaskSendResetPasswordEmail(ctx, task, opts...)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-		log.Error().Err(err).
-			Str("user_id", user.ID.Hex()).
-			Str("request_method", ctx.Request.Method).
-			Str("request_path", ctx.Request.URL.Path).
-			Msg("task 'reset password' failed to enqueued")
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to enqueue task"))
 		return
 	}
 
@@ -171,7 +162,7 @@ type userLogin struct {
 func (server *Server) login(ctx *gin.Context) {
 	var req userLogin
 	// Validate request.
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 	// Get user by email.
@@ -179,22 +170,22 @@ func (server *Server) login(ctx *gin.Context) {
 	if err != nil {
 		switch {
 		case errors.Is(err, db.ErrRecordNotFound):
-			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound.Error()))
 		default:
-			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			ctx.JSON(http.StatusInternalServerError, errorResponse("failed to fetch user profile"))
 		}
 		return
 	}
 	// Check password.
 	err = utils.CheckPassword(req.Password, user.HashedPassword)
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		ctx.JSON(http.StatusUnauthorized, errorResponse("invalid login credentials"))
 		return
 	}
 	// Create token.
 	token, payload, err := server.tokenMaker.CreateToken(user.ID.Hex(), user.Role, 24*time.Hour)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to create access token"))
 		return
 	}
 
@@ -202,13 +193,12 @@ func (server *Server) login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,
 		envelop{
 			"data": gin.H{
+				"data":    user,
 				"token":   token,
 				"payload": payload,
 			},
 		},
 	)
-	// Log user login where
-
 	log.Info().
 		Str("user_id", user.ID.Hex()).
 		Str("ip_address", ctx.ClientIP()).
@@ -221,7 +211,7 @@ func (server *Server) login(ctx *gin.Context) {
 // Define the Google Sign-in route handler
 func (server *Server) googleLogin(w http.ResponseWriter, r *http.Request) {
 	url := server.googleConfig.AuthCodeURL(server.config.GoogleRandomString, oauth2.AccessTypeOffline)
-	http.Redirect(w, r, url, http.StatusFound)
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 type profile struct {
@@ -237,8 +227,7 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 	// Check state is valid.
 	state := ctx.Query("state")
 	if state != server.config.GoogleRandomString {
-		werr := fmt.Errorf("invalid state value")
-		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("invalid state value"))
 		return
 	}
 
@@ -246,8 +235,7 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 	code := ctx.Query("code")
 	token, err := server.googleConfig.Exchange(ctx, code)
 	if err != nil {
-		werr := fmt.Errorf("failed to exchange code: %w", err)
-		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to exchange code"))
 		return
 	}
 
@@ -255,8 +243,7 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 	client := server.googleConfig.Client(ctx, token)
 	resp, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
 	if err != nil {
-		werr := fmt.Errorf("failed to get user info: %w", err)
-		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to get user info"))
 		return
 	}
 	defer resp.Body.Close()
@@ -264,14 +251,12 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 	// Parse the user's profile JSON
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		werr := fmt.Errorf("failed to read response body: %w", err)
-		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to read response body"))
 		return
 	}
 	userProfile := &profile{}
 	if err := json.Unmarshal(body, userProfile); err != nil {
-		werr := fmt.Errorf("failed to parse user profle: %w", err)
-		ctx.JSON(http.StatusInternalServerError, errorResponse(werr))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to parse user profle"))
 		return
 	}
 
@@ -279,17 +264,17 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 	user, err := server.store.GetUserByEmail(ctx, userProfile.Email)
 	if err != nil {
 		if errors.Is(err, db.ErrRecordNotFound) {
-			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound))
+			ctx.JSON(http.StatusNotFound, errorResponse(db.ErrRecordNotFound.Error()))
 			return
 		}
 
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to fetch user profile"))
 		return
 	}
 
 	pasetoToken, payload, err := server.tokenMaker.CreateToken(user.ID.Hex(), user.Role, 24*time.Hour)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to create access token"))
 		return
 	}
 
@@ -310,42 +295,103 @@ func (server *Server) googleLoginCallback(ctx *gin.Context) {
 		Msg("logged in user using google sigin-in")
 }
 
+type updateUserRequest struct {
+	FirstName       *string `json:"first_name" binding:"min=2"`
+	LastName        *string `json:"last_name" binding:"min=2"`
+	About           *string `json:"about"`
+	Website         *string `json:"website"`
+	ProfileImageURL *string `json:"profile_image_url"`
+	Country         *string `json:"country"`
+	City            *string `json:"city"`
+	GitHubURL       *string `json:"github_url"`
+	LinkedInURL     *string `json:"linkedin_url"`
+	TwitterURL      *string `json:"twitter_url"`
+	InstagramURL    *string `json:"instagram_url"`
+}
+
 func (server *Server) updateUser(ctx *gin.Context) {
-	var req models.User
-	id := ctx.Param("id")
-	if err := BindJSONWithValidation(ctx, &req, validator.New()); err != nil {
-		return
-	}
-	user, err := server.store.GetUserByID(ctx, id)
-
-	if user == nil {
-		ctx.JSON(http.StatusNotFound,
-			envelop{"error": "user not found"})
-
+	var req updateUserRequest
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 
-	updateUserParams := map[string]interface{}{
-		"full_name": req.FullName,
-		"about":     req.About,
-		"contact":   req.Contact,
-		"socials":   req.Socials,
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	arg := map[string]interface{}{}
+
+	if req.FirstName != nil {
+		arg["first_name"] = *req.FirstName
+	}
+	if req.LastName != nil {
+		arg["last_name"] = *req.LastName
+	}
+	if req.About != nil {
+		arg["about"] = *req.About
+	}
+	if req.Website != nil {
+		arg["contact.website"] = *req.Website
+	}
+	if req.ProfileImageURL != nil {
+		arg["profile_image_url"] = *req.ProfileImageURL
+	}
+	if req.Country != nil {
+		arg["contact.country"] = *req.Country
+	}
+	if req.City != nil {
+		arg["contact.city"] = *req.City
+	}
+	if req.GitHubURL != nil {
+		arg["socials.github_url.value"] = *req.GitHubURL
+	}
+	if req.LinkedInURL != nil {
+		arg["socials.linkedin_url.value"] = *req.LinkedInURL
+	}
+	if req.TwitterURL != nil {
+		arg["socials.twitter_url.value"] = *req.TwitterURL
+	}
+	if req.InstagramURL != nil {
+		arg["socials.instagram_url.value"] = *req.InstagramURL
 	}
 
-	_, err = server.store.UpdateUser(ctx,
-		user.ID.Hex(), updateUserParams)
+	resp, err := server.store.UpdateUser(ctx, authPayload.UserID, arg)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to update user's profile"))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, envelop{"result": "user updated successfully",
+	ctx.JSON(http.StatusOK, envelop{
 		"data": gin.H{
-			"full_name": req.FullName,
-			"about":     req.About,
-			"contact":   req.Contact,
-			"socials":   req.Socials,
+			"user": resp,
 		},
 	})
 
+	log.Info().
+		Str("user_id", authPayload.UserID).
+		Str("ip_address", ctx.ClientIP()).
+		Str("user_agent", ctx.Request.UserAgent()).
+		Str("request_method", ctx.Request.Method).
+		Str("request_path", ctx.Request.URL.Path).
+		Msg("updated user successfully")
+}
+
+func (server *Server) logout(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	expiredAt := authPayload.ExpiredAt
+	duration := time.Until(expiredAt)
+
+	err := server.cache.BlacklistSession(ctx, authPayload.ID.String(), duration)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to blacklist access token"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, envelop{"result": "Logged out user successfully"})
+	log.Info().
+		Str("user_id", authPayload.UserID).
+		Str("ip_address", ctx.ClientIP()).
+		Str("user_agent", ctx.Request.UserAgent()).
+		Str("request_method", ctx.Request.Method).
+		Str("request_path", ctx.Request.URL.Path).
+		Msg("logged out user")
 }

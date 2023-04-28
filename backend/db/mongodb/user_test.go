@@ -17,14 +17,16 @@ func createTestUser(t *testing.T) *models.User {
 	require.NoError(t, err)
 
 	user := models.User{
-		ID:       utils.RandomUserID(),
-		FullName: utils.RandomString(8),
-		Role:     "SuperAdmin",
-		About:    utils.RandomString(12),
+		ID:        utils.RandomUserID(),
+		FirstName: utils.RandomString(4),
+		LastName:  utils.RandomString(4),
+		Role:      "Mentor",
+		About:     utils.RandomString(12),
 		Contact: models.Contact{
-			Email:    utils.RandomEmail(),
-			Website:  utils.RandomString(5),
-			Location: utils.RandomString(5),
+			Email:   utils.RandomEmail(),
+			Website: utils.RandomString(5),
+			Country: utils.RandomString(5),
+			City:    utils.RandomString(5),
 		},
 		CreatedAt:         time.Now(),
 		ProfileImageURL:   utils.RandomString(12),
@@ -65,7 +67,8 @@ func TestCreateUser(t *testing.T) {
 
 func compareUser(t *testing.T, user1, user2 *models.User) {
 	require.Equal(t, user1.HashedPassword, user2.HashedPassword)
-	require.Equal(t, user1.FullName, user2.FullName)
+	require.Equal(t, user1.FirstName, user2.FirstName)
+	require.Equal(t, user1.LastName, user2.LastName)
 	require.Equal(t, user1.Role, user2.Role)
 	require.Equal(t, user1.About, user2.About)
 	require.Equal(t, user1.Contact, user2.Contact)
@@ -99,14 +102,18 @@ func TestGetUserByEmail(t *testing.T) {
 func TestUpdateUserOnlyFullName(t *testing.T) {
 	oldUser := createTestUser(t)
 
-	newFullName := utils.RandomString(8)
+	newFirstName := utils.RandomString(4)
+	newLastName := utils.RandomString(4)
 	updatedUser, err := testStore.UpdateUser(context.Background(), oldUser.ID.Hex(), map[string]interface{}{
-		"full_name": newFullName,
+		"first_name": newFirstName,
+		"last_name":  newLastName,
 	})
 
 	require.NoError(t, err)
-	require.NotEqual(t, oldUser.FullName, updatedUser.FullName)
-	require.Equal(t, newFullName, updatedUser.FullName)
+	require.NotEqual(t, oldUser.FirstName, updatedUser.FirstName)
+	require.NotEqual(t, oldUser.LastName, updatedUser.LastName)
+	require.Equal(t, newFirstName, updatedUser.FirstName)
+	require.Equal(t, newLastName, updatedUser.LastName)
 }
 
 func TestUpdateUserOnlyEmail(t *testing.T) {

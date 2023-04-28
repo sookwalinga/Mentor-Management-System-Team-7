@@ -15,3 +15,5 @@ FAQ.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+FAQ.requireAuth = true;

@@ -2,7 +2,9 @@ import React from "react";
 import Logo from "@/public/images/Logo-Onley-3-01 1.png";
 import { searchIcon, notificationIcon, chatIcon, avatarIcon } from "@/public";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/dist/server/api-utils";
 
 export const Header = () => {
   return (
@@ -46,8 +48,23 @@ export const Header = () => {
             className="cursor-pointer"
           />
 
-          <div className="avatar lg:flex hidden">
-            <div className="w-[42px] h-[42px] rounded-full cursor-pointer ">
+          <div className="avatar lg:flex hidden dropdown">
+            <div
+              className="w-[42px] h-[42px] rounded-full cursor-pointer "
+              tabIndex={0}
+            >
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box absolute right-10 top-4 w-52"
+              >
+                <li onClick={() => signOut({
+
+                  redirect : false
+                })}>
+                  <a>Sign out</a>
+                </li>
+              </ul>
+
               <Image src={avatarIcon} alt="avatar" />
             </div>
           </div>
