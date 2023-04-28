@@ -21,14 +21,14 @@ type createDiscussionRequest struct {
 
 func (server *Server) createDiscussion(ctx *gin.Context) {
 	var req createDiscussionRequest
-	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	userID, err := primitive.ObjectIDFromHex(authPayload.UserID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to parse user's ID"))
 		return
 	}
 
@@ -43,7 +43,7 @@ func (server *Server) createDiscussion(ctx *gin.Context) {
 
 	discussion, err := server.store.CreateDiscussion(ctx, arg)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to create discussion"))
 		return
 	}
 
@@ -70,20 +70,20 @@ type addCommentRequestID struct {
 
 func (server *Server) addComment(ctx *gin.Context) {
 	var reqID addCommentRequestID
-	if err := ctx.ShouldBindUri(&reqID); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindUri(&reqID), validator.New()); err != nil {
 		return
 	}
 
 	var reqBody addCommentRequest
-	if err := bindJSONWithValidation(ctx, &reqBody, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&reqBody), validator.New()); err != nil {
 		return
 	}
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	userID, err := primitive.ObjectIDFromHex(authPayload.UserID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to parse user's ID"))
 		return
 	}
 
@@ -97,7 +97,7 @@ func (server *Server) addComment(ctx *gin.Context) {
 
 	comments, err := server.store.AddComment(ctx, reqID.ID, arg)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to parse user's ID"))
 		return
 	}
 
@@ -119,8 +119,7 @@ type listDiscussionsRequest struct {
 
 func (server *Server) listDiscussions(ctx *gin.Context) {
 	var req listDiscussionsRequest
-	if err := ctx.ShouldBindQuery(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindQuery(&req), validator.New()); err != nil {
 		return
 	}
 
@@ -128,8 +127,7 @@ func (server *Server) listDiscussions(ctx *gin.Context) {
 
 	discussions, err := server.store.ListDiscussions(ctx, authPayload.UserID, req.PageID, req.PageSize)
 	if err != nil {
-		fmt.Println(err)
-		ctx.JSON(http.StatusInternalServerError, err)
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to list discussions"))
 		return
 	}
 
@@ -156,13 +154,12 @@ type updateDiscussionRequestID struct {
 
 func (server *Server) updateDiscussion(ctx *gin.Context) {
 	var reqID updateDiscussionRequestID
-	if err := ctx.ShouldBindUri(&reqID); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindUri(&reqID), validator.New()); err != nil {
 		return
 	}
 
 	var reqBody updateDiscussionRequest
-	if err := bindJSONWithValidation(ctx, &reqBody, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&reqBody), validator.New()); err != nil {
 		return
 	}
 
@@ -174,7 +171,7 @@ func (server *Server) updateDiscussion(ctx *gin.Context) {
 		"updated_at": time.Now(),
 	})
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to update discussion"))
 		return
 	}
 

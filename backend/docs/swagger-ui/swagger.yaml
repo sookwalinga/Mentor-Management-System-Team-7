@@ -99,45 +99,32 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /users/:id:
-    post:
+    patch:
       summary: "Update user's profile info"
       parameters:
-        - name: "id"
-          in: path
-          description: "ID of the user"
-          required: true
-          type: string
         - name: "User's info"
           in: "body"
           description: "Update user's profile data"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UpdateUserResquest"
       responses:
         200:
           description: "OK"
           schema:
             type: object
             properties:
-              result:
-                type: string
               data:
                 type: object
                 properties:
-                  full_name:
-                    type: string
-                  about:
-                    type: string
-                  contact:
-                    $ref: "#/definitions/Contact"
-                  socials:
-                    $ref: "#/definitions/Socials"
+                  user:
+                    $ref: "#/definitions/User"
         400:
           description: "Bad Request"
           schema:
             $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not Found"
+        401:
+          description: "Unauthorized"
           schema:
             $ref: "#/definitions/ErrorResponse"
         500:
@@ -510,12 +497,40 @@ definitions:
         items:
           $ref: "#/definitions/FAQ"
   
+  UpdateUserResquest:
+    type: object
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      about:
+        type: string
+      website:
+        type: string
+      profile_image_url:
+        type: string
+      country:
+        type: string
+      city:
+        type: string
+      github_url:
+        type: string
+      linkedin_url:
+        type: string
+      twitter_url:
+        type: string
+      instagram_url:
+        type: string
+  
   User:
     type: object
     properties:
       id:
         type: string
-      full_name:
+      first_name:
+        type: string
+      last_name:
         type: string
       role:
         type: string
@@ -544,7 +559,9 @@ definitions:
         format: email
       website:
         type: string
-      location:
+      country:
+        type: string
+      city:
         type: string
 
   Socials:

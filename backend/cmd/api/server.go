@@ -87,7 +87,7 @@ func (s *Server) setupRouter() {
 	authRoutes.PATCH("/api/v1/users/:id/change_password", s.changeUserPassword)
 	authRoutes.POST("/api/v1/faqs", s.createFAQ)
 	authRoutes.GET("/api/v1/faqs", s.getAllFAQs)
-	authRoutes.POST("/api/v1/users/:id", s.updateUser)
+	authRoutes.PATCH("/api/v1/users/:id", s.updateUser)
 	authRoutes.POST("/api/v1/discussions", s.createDiscussion)
 	authRoutes.POST("/api/v1/discussions/:id/add_comment", s.addComment)
 	authRoutes.GET("/api/v1/discussions", s.listDiscussions)
@@ -102,8 +102,8 @@ func (s *Server) Start(address string) error {
 	return s.router.Run(address)
 }
 
-func errorResponse(err error) gin.H {
-	return gin.H{"error": err.Error()}
+func errorResponse(err string) gin.H {
+	return gin.H{"error": err}
 }
 
 type envelop map[string]interface{}

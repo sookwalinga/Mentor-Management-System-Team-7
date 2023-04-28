@@ -16,8 +16,8 @@ type validationError struct {
 }
 
 // bindJSONWithValidation is a helper function that binds the JSON request body to the given interface and validates it with the specified validator.
-func bindJSONWithValidation(ctx *gin.Context, req interface{}, validate *validator.Validate) error {
-	if err := ctx.ShouldBindJSON(req); err != nil {
+func bindJSONWithValidation(ctx *gin.Context, err error, validate *validator.Validate) error {
+	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
 			return err
@@ -38,5 +38,5 @@ func bindJSONWithValidation(ctx *gin.Context, req interface{}, validate *validat
 		return err
 	}
 
-	return validate.Struct(req)
+	return nil
 }

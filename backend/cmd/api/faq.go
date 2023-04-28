@@ -2,7 +2,6 @@
 package api
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/ALCOpenSource/Mentor-Management-System-Team-7/backend/db/models"
@@ -20,14 +19,13 @@ type createFAQRequest struct {
 
 func (server *Server) createFAQ(ctx *gin.Context) {
 	var req createFAQRequest
-	if err := bindJSONWithValidation(ctx, &req, validator.New()); err != nil {
+	if err := bindJSONWithValidation(ctx, ctx.ShouldBindJSON(&req), validator.New()); err != nil {
 		return
 	}
 
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
-	if authPayload.UserRole != "SuperAdmin" {
-		err := errors.New("not authorised to create faq")
-		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+	if authPayload.UserRole != "Admin" {
+		ctx.JSON(http.StatusUnauthorized, errorResponse("not authorised to create faq"))
 		return
 	}
 
@@ -39,7 +37,7 @@ func (server *Server) createFAQ(ctx *gin.Context) {
 
 	resp, err := server.store.CreateFAQ(ctx, faq)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to create FAQ"))
 		return
 	}
 
@@ -58,7 +56,7 @@ func (server *Server) getAllFAQs(ctx *gin.Context) {
 
 	resp, err := server.store.GetAllFAQs(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse("failed to get all FAQs"))
 		return
 	}
 
