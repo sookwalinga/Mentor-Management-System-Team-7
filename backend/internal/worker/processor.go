@@ -24,9 +24,11 @@ type TaskProcessor interface {
 	// Start starts the RedisTaskProcessor.
 	Start() error
 
-	// ProcessTaskSendVerifyEmail processes a TaskSendVerifyEmail task by retrieving
-	// the task payload and sending a verification email to the user specified in the payload.
-	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
+	// ProcessTaskSendResetPasswordEmail processes a 'TaskSendResetPasswordEmail' task.
+	ProcessTaskSendResetPasswordEmail(
+		ctx context.Context,
+		task *asynq.Task,
+	) error
 }
 
 // RedisTaskProcessor is a struct representing the task processor that implements the TaskProcessor interface.
@@ -66,7 +68,6 @@ func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store, mailer
 // Start starts the RedisTaskProcessor.
 func (processor *RedisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
-	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
 	mux.HandleFunc(TaskSendResetPasswordEmail, processor.ProcessTaskSendResetPasswordEmail)
 
 	return processor.server.Start(mux)

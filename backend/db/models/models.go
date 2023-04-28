@@ -12,7 +12,8 @@ import (
 // User represents a user's profile & settings.
 type User struct {
 	ID                primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
-	FullName          string             `bson:"full_name,omitempty" json:"full_name,omitempty"`
+	FirstName         string             `bson:"first_name,omitempty" json:"first_name,omitempty"`
+	LastName          string             `bson:"last_name,omitempty" json:"last_name,omitempty"`
 	Role              string             `bson:"role,omitempty" json:"role,omitempty"`
 	About             string             `bson:"about,omitempty" json:"about,omitempty"`
 	Contact           Contact            `bson:"contact,omitempty" json:"contact,omitempty"`
@@ -26,9 +27,10 @@ type User struct {
 
 // Contact represents user's contact details.
 type Contact struct {
-	Email    string `bson:"email,omitempty" json:"email,omitempty"`
-	Website  string `bson:"website,omitempty" json:"website,omitempty"`
-	Location string `bson:"location,omitempty" json:"location,omitempty"`
+	Email   string `bson:"email,omitempty" json:"email,omitempty"`
+	Website string `bson:"website,omitempty" json:"website,omitempty"`
+	Country string `bson:"country,omitempty" json:"country,omitempty"`
+	City    string `bson:"city,omitempty" json:"city,omitempty"`
 }
 
 // SocialMediaURL represents the value and settings for socials.
