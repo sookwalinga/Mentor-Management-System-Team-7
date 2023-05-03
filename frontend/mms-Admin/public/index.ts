@@ -22,3 +22,4 @@ export { default as GADSIcon } from "./images/gads.png";
 export { default as errorPageIcon } from "./images/svgs/errorPage.svg";
 export { default as eyePasswordShowIcon } from "./images/svgs/eye-password-show 1.svg";
 export { default as eyePasswordHideIcon } from "./images/svgs/eye-password-hide 1.svg";
+export { default as googleIcon } from "./images/svgs/googleIcon.svg";
