@@ -107,7 +107,7 @@ const tasks = [
 
 const DashboardHome = () => {
   return (
-  <>
+    <>
       <div className="dashboard__details flex lg:items-center lg:flex-row flex-col  justify-between ">
         <div className="bg-mmsPry3 lg:w-[194px] h-[92px]  rounded-[7px] pl-[20px] pr-4 py-2">
           <div className="flex justify-end  left-[200px] ">
@@ -382,8 +382,7 @@ const DashboardHome = () => {
           </div>
         </div>
       </div>
-      </>
-
+    </>
   );
 };
 
@@ -401,11 +400,8 @@ const ProgressBar = ({ progress }: any) => {
 
 export default DashboardHome;
 
-
 DashboardHome.requireAuth = true;
-
 
 DashboardHome.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout title="DashbOARD">{page}</DashboardLayout>;
 };
-

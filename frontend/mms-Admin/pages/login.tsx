@@ -13,13 +13,12 @@ const Login = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [inputvalues, setInputValues] = useState({
-    email: "ikehfavourdeveloper@gmail.com",
+    email: "evqpsb@gmail.com",
     password: "secretsz"
   });
 
   const session = useSession();
 
-  // const loading = session.status === "loading";
   console.log("session", session);
 
   const override: CSSProperties = {
@@ -76,8 +75,6 @@ const Login = () => {
       // }, 2000);
     }
   }, [session, isRedirecting, router]);
-
-  console.log(inputvalues);
 
   return (
     <AuthLayout title="Login">
